@@ -21,13 +21,17 @@ To keep everything organized, let's use branches for adding new features instead
 -   ex) `text/fix-font-bug`
 
 **Checking Current Branch**
+
 Run `git branch --show-current` in terminal
 
 **Switching Branches**
+
 Run `git switch <name of branch you want to switch to>`
 
 **Committing and Pushing Changes**
+
 [!IMPORTANT] Make sure to commit changes in the appropriate branch
+
 Run the following:
 1. `git add .`
 2. `git commit -m "description here"`
