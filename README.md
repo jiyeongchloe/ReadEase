@@ -18,7 +18,7 @@ To keep everything organized, let's use branches for adding new features instead
 **Best Practices**
 - Run `git pull` before you do anything to make sure your local repo is up to date
 - Use identifying names for branches, preferably in the form `COMPONENT/DESCRIPTION` so we can find it easily
--   ex) `text/fix-font-bug`
+    - ex) `text/fix-font-bug`
 
 **Checking Current Branch**
 
@@ -30,7 +30,7 @@ Run `git switch <name of branch you want to switch to>`
 
 **Committing and Pushing Changes**
 
-[!IMPORTANT] 
+> [!IMPORTANT] 
 > Make sure to commit changes in the appropriate branch
 
 Run the following:
@@ -46,6 +46,6 @@ Run the following:
 4. Select the directory that you have cloned the repo to
 5. The extension should now be added
 
-[!WARNING] 
+> [!WARNING] 
 > Whenever you make changes to the files, make sure to click on the circle loading button to make sure changes are reflected in the web browser
 
