@@ -41,7 +41,7 @@ Run the following:
     - may have to run `git push --set-upstream origin <branch name>`
 
 ## Testing / Running the Extension
-1. Go to chrome://extensions
+1. Go to [chrome://extensions]
 2. Toggle `Developer mode` near the top right corner of the page
 3. Click on `Load unpacked` near the top left corner of the page
 4. Select the directory that you have cloned the repo to
