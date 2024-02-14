@@ -1,5 +1,6 @@
 # ReadEase
 Inclusive Technology CMSC 20370 Project
+
 Authors: Chloe Lee, Tiffany Lee, Soyoon Moon
 
 ### Local Setup
