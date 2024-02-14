@@ -8,6 +8,17 @@ Authors: Chloe Lee, Tiffany Lee, Soyoon Moon
 2. Run `git clone git@github.com:jiyeongchloe/ReadEase.git`
 3. Done!
 
+## Testing / Running the Extension
+1. Go to <chrome://extensions/>
+2. Toggle `Developer mode` near the top right corner of the page
+3. Click on `Load unpacked` near the top left corner of the page
+4. Select the directory that you have cloned the repo to
+5. The extension should now be added
+
+> [!WARNING] 
+> Whenever you make changes to the files, make sure to click on the circle loading button to make sure changes are reflected in the web browser
+
+
 ## Dev / Commit Guidelines
 To keep everything organized, let's use branches for adding new features instead of committing everything to `main` immediately.
 
@@ -39,14 +50,4 @@ Run the following:
 3. `git pull` !! important: run `git pull` after you commit
 4. `git push`
     - may have to run `git push --set-upstream origin <branch name>`
-
-## Testing / Running the Extension
-1. Go to <chrome://extensions/>
-2. Toggle `Developer mode` near the top right corner of the page
-3. Click on `Load unpacked` near the top left corner of the page
-4. Select the directory that you have cloned the repo to
-5. The extension should now be added
-
-> [!WARNING] 
-> Whenever you make changes to the files, make sure to click on the circle loading button to make sure changes are reflected in the web browser
 
