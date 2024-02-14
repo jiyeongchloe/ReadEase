@@ -31,7 +31,7 @@ Run `git switch <name of branch you want to switch to>`
 **Committing and Pushing Changes**
 
 [!IMPORTANT] 
-Make sure to commit changes in the appropriate branch
+> Make sure to commit changes in the appropriate branch
 
 Run the following:
 1. `git add .`
@@ -47,5 +47,5 @@ Run the following:
 5. The extension should now be added
 
 [!WARNING] 
-Whenever you make changes to the files, make sure to click on the circle loading button to make sure changes are reflected in the web browser
+> Whenever you make changes to the files, make sure to click on the circle loading button to make sure changes are reflected in the web browser
 
