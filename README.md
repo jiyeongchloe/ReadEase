@@ -18,7 +18,7 @@ To keep everything organized, let's use branches for adding new features instead
 **Best Practices**
 - Run `git pull` before you do anything to make sure your local repo is up to date
 - Use identifying names for branches, preferably in the form `COMPONENT/DESCRIPTION` so we can find it easily
--     ex) `text/fix-font-bug`
+-   ex) `text/fix-font-bug`
 
 **Checking Current Branch**
 Run `git branch --show-current` in terminal
