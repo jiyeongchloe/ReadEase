@@ -2,5 +2,8 @@
   "name": "ReadEase",
   "description": "Extension to ease reading for individuals with dyslexia",
   "version": "1.0",
-  "manifest_version": 3
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
