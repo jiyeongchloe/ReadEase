@@ -21,6 +21,7 @@ Authors: Chloe Lee, Tiffany Lee, Soyoon Moon
 
 ## Dev / Commit Guidelines
 To keep everything organized, let's use branches for adding new features instead of committing everything to `main` immediately.
+
 Here is the [project board](https://github.com/users/jiyeongchloe/projects/1)
 - Add issues directly to the to-do column or convert drafts from the backlog into an issue
 - updates on progress as comments on the issues would be helpful
