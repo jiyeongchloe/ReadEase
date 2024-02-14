@@ -28,22 +28,27 @@ Here is the [project board](https://github.com/users/jiyeongchloe/projects/1)
 - maybe only do PR after the task is done? or should we do micro PRs within branches as well?
 - should we do PR reviews?
 
+
 **Creating a Branch**
 - Option 1: On the main page of the repository, click on the dropdown branch menu near the top left corner. Enter a name for the new branch in the textbox and click `create ___ branch from dev`
 - Option 2: In the terminal, `cd` to the root of the repository and run `git branch <name of new branch>`
+
 
 **Best Practices**
 - Run `git pull` before you do anything to make sure your local repo is up to date
 - Use identifying names for branches, preferably in the form `COMPONENT/DESCRIPTION` so we can find it easily
     - ex) `text/fix-font-bug`
 
+
 **Checking Current Branch**
 
 Run `git branch --show-current` in terminal
 
+
 **Switching Branches**
 
 Run `git switch <name of branch you want to switch to>`
+
 
 **Committing and Pushing Changes**
 
@@ -57,7 +62,9 @@ Run the following:
 4. `git push`
     - may have to run `git push --set-upstream origin <branch name>`
 
+
 **Pull Requests (PRs)**
+
 When submitting a PR, link the respective issue and add someone as the reviewer. Post update on kakaotalk.
 
 If you are added as the reviewer, run that branch as an extension (instructions above) to make sure everything runs correctly and either approve & merge or comment on anything you think should be changed and request changes.
