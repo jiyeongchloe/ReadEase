@@ -57,3 +57,7 @@ Run the following:
 4. `git push`
     - may have to run `git push --set-upstream origin <branch name>`
 
+**Pull Requests (PRs)**
+When submitting a PR, link the respective issue and add someone as the reviewer. Post update on kakaotalk.
+
+If you are added as the reviewer, run that branch as an extension (instructions above) to make sure everything runs correctly and either approve & merge or comment on anything you think should be changed and request changes.
