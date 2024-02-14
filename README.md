@@ -38,6 +38,7 @@ Run the following:
 2. `git commit -m "description here"`
 3. `git pull` !! important: run `git pull` after you commit
 4. `git push`
+    - may have to run `git push --set-upstream origin <branch name>`
 
 ## Testing / Running the Extension
 1. Go to chrome://extensions
