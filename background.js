@@ -48,7 +48,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                 if ((user_info.iss === 'https://accounts.google.com' || user_signed_in.iss === 'accounts.google.com')
                     && user_info.aud === CLIENT_ID) {
-                    chrome.action.setPopup({ popup: 'popup-signed-in.html'}, function() {
+                    chrome.action.setPopup({ popup: 'preferences-popup.html'}, function() {
                         user_signed_in = true;
                         sendResponse('success');
                     });
