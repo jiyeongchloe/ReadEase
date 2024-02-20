@@ -13,6 +13,25 @@ numbersTab.addEventListener('click', function() {
     openPref('Numbers', numbersTab);
 });
 
+var fontSave = document.getElementById('fontSave');
+fontSave.addEventListener('click', function() {
+    savePreferences('Font preferences saved');
+});
+
+var spacingSave = document.getElementById('spacingSave');
+fontSave.addEventListener('click', function() {
+    savePreferences('Spacing preferences saved');
+});
+
+var numberSave = document.getElementById('numberSave');
+fontSave.addEventListener('click', function() {
+    savePreferences('Numbers preferences saved');
+});
+
+function savePreferences(saveMessage) {
+    console.log(saveMessage);
+}
+
 function openPref(prefName, tabButton) {
     // Declare all variables
     var i, tabcontent, tablinks;
