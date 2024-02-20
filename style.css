@@ -37,7 +37,7 @@
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
 body {
-    min-width: 600px;
+    min-width: 400px;
     min-height: 400px;
 }
 
