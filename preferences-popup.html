@@ -3,9 +3,27 @@
     <head>
         <link rel="stylesheet" href="style.css" />
     </head>
-    <body>
-        <div class="center">
-            <p>signed in!</p>
-        </div>
-    </body>
+
+    <!-- Tab links -->
+    <div class="tab">
+        <button class="tablinks" onclick="openPref(event, 'Font')">Font</button>
+        <button class="tablinks" onclick="openPref(event, 'Spacing')">Spacing</button>
+        <button class="tablinks" onclick="openPref(event, 'Numbers')">Numbers</button>
+    </div>
+  
+    <!-- Tab content -->
+    <div id="Font" class="tabcontent">
+        <h3>Font</h3>
+        <p>This is where font preference settings go.</p>
+    </div>
+  
+    <div id="Spacing" class="tabcontent">
+        <h3>Spacing</h3>
+        <p>This is where spacing preference settings go.</p>
+    </div>
+  
+    <div id="Numbers" class="tabcontent">
+        <h3>Numbers</h3>
+        <p>This is where number preference settings go.</p>
+    </div>
 </html>
