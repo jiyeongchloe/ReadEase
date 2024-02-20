@@ -56,8 +56,8 @@ Run the following:
 1. `git add .`
 2. `git commit -m "description here"`
 3. `git pull` !! important: run `git pull` after you commit
-4. `git push`
-    - may have to run `git push --set-upstream origin <branch name>`
+5. `git push`
+    - may have to run `git push origin HEAD`
 
 
 ### Pull Requests (PRs)
