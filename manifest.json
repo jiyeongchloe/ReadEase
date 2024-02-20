@@ -6,10 +6,7 @@
   "content_scripts": [
     {
         "matches": [
-            "https://*.youtube.com/*",
-            "https://*.google.com/*",
-            "https://*.microsoft.com/*",
-            "https://*.naver.com/*"
+            "<all_urls>"
         ],
         "js":[
             "app.js"
