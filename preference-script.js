@@ -17,22 +17,22 @@ numbersTab.addEventListener('click', function() {
 // save button things
 var fontSave = document.getElementById('fontSave');
 fontSave.addEventListener('click', function () {
-    chrome.runtime.sendMessage({ message: 'saveFont' }, function (response) {
-        if (response === 'success') window.close();
+    chrome.runtime.sendMessage({ message: 'saveFont' }, function () {
+
     });
 });
 
 var spacingSave = document.getElementById('spacingSave');
 spacingSave.addEventListener('click', function () {
-    chrome.runtime.sendMessage({ message: 'saveSpacing' }, function (response) {
-        if (response === 'success') window.close();
+    chrome.runtime.sendMessage({ message: 'saveSpacing' }, function () {
+
     });
 });
 
 var numberSave = document.getElementById('numberSave');
 numberSave.addEventListener('click', function () {
-    chrome.runtime.sendMessage({ message: 'saveNumber' }, function (response) {
-        if (response === 'success') window.close();
+    chrome.runtime.sendMessage({ message: 'saveNumber' }, function () {
+
     });
 });
 
