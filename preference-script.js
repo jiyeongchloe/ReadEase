@@ -1,3 +1,4 @@
+// tab things
 var fontTab = document.getElementById('fontTab');
 fontTab.addEventListener('click', function() {
     openPref('Font', fontTab);
@@ -13,25 +14,30 @@ numbersTab.addEventListener('click', function() {
     openPref('Numbers', numbersTab);
 });
 
+// save button things
 var fontSave = document.getElementById('fontSave');
-fontSave.addEventListener('click', function() {
-    savePreferences('Font preferences saved');
+fontSave.addEventListener('click', function () {
+    chrome.runtime.sendMessage({ message: 'saveFont' }, function (response) {
+        if (response === 'success') window.close();
+    });
 });
 
 var spacingSave = document.getElementById('spacingSave');
-fontSave.addEventListener('click', function() {
-    savePreferences('Spacing preferences saved');
+spacingSave.addEventListener('click', function () {
+    chrome.runtime.sendMessage({ message: 'saveSpacing' }, function (response) {
+        if (response === 'success') window.close();
+    });
 });
 
 var numberSave = document.getElementById('numberSave');
-fontSave.addEventListener('click', function() {
-    savePreferences('Numbers preferences saved');
+numberSave.addEventListener('click', function () {
+    chrome.runtime.sendMessage({ message: 'saveNumber' }, function (response) {
+        if (response === 'success') window.close();
+    });
 });
 
-function savePreferences(saveMessage) {
-    console.log(saveMessage);
-}
 
+// functions
 function openPref(prefName, tabButton) {
     // Declare all variables
     var i, tabcontent, tablinks;
