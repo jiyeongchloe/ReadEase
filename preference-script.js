@@ -41,7 +41,7 @@ function openPref(prefName, tabButton) {
 
 
 // spcing slider
-document.addEventListener('DOMContentLoaded', function() {
+//document.addEventListener('DOMContentLoaded', function() {
     const lineSpacingSlider = document.getElementById("line-spacing-slider");
 
     // retrieve toggle state from chrome.storage.sync
@@ -58,4 +58,4 @@ document.addEventListener('DOMContentLoaded', function() {
         // store the line spacing pref in chrome.storage.sync
         chrome.storage.sync.set({ 'prevLineSpacing': lineSpacingSlider.value });
     });
-});
+//});
