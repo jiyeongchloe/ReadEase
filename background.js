@@ -76,6 +76,7 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
 
 // Listen for page refresh events
 chrome.webNavigation.onCommitted.addListener(function(details) {
+    console.log(details);
     if (details.transitionType === 'reload') {
         chrome.storage.sync.get('toggleState', function(data) {
             const enable = data.toggleState;
