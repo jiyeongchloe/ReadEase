@@ -27,6 +27,7 @@
     "identity",
     "storage",
     "tabs",
-    "activeTab"
+    "activeTab",
+    "webNavigation"
   ]
 }

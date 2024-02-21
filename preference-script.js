@@ -65,6 +65,27 @@ function openPref(prefName, tabButton) {
   }
 
 
+
+// Listen for changes to the toggle switch
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toggleButton');
+
+    // Retrieve toggle state from chrome.storage.sync
+    chrome.storage.sync.get('toggleState', function(data) {
+        const toggleState = data.toggleState;
+        // Set the toggle state based on chrome.storage.sync
+        toggleButton.checked = toggleState === 'on';
+    });
+
+    // Listen for change event on toggle switch
+    toggleButton.addEventListener('change', function() {
+        const enable = toggleButton.checked;
+        // Store the toggle state in chrome.storage.sync
+        chrome.storage.sync.set({ 'toggleState': enable ? 'on' : 'off' });
+    });
+});
+
+
 // spcing slider
 //document.addEventListener('DOMContentLoaded', function() {
     const lineSpacingSlider = document.getElementById("line-spacing-slider");
