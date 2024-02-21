@@ -44,12 +44,11 @@ body {
     border-top: none;
     animation: fadeEffect 1s; /* Fading effect takes 1 second */
   }
-  
-  /* Go from zero to full opacity */
-  @keyframes fadeEffect {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
+
+    /* Go from zero to full opacity */
+    @keyframes fadeEffect {
+        from {opacity: 0;}
+        to {opacity: 1;}      }
 
 
 /* The container (outer circle) */
@@ -106,3 +105,34 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
+
+
+
+/* Position the save button in bottom right corner */
+#Font {
+    position: relative;
+}
+#Font button#fontSave {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+#Spacing {
+    position: relative;
+}
+#Spacing button#spacingSave {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+#Numbers {
+    position: relative;
+}
+#Numbers button#numberSave {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+  
