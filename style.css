@@ -88,3 +88,13 @@ body {
     from {opacity: 0;}
     to {opacity: 1;}
   }
+
+
+  .container {
+    display: inline-block;
+  }
+
+  .category {
+    font-weight: bold;
+    margin-right: 50px;
+  }

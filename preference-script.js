@@ -38,3 +38,15 @@ function openPref(prefName, tabButton) {
     tabButton.classList.add("active");
     //document.querySelector('[onclick="openPref(\'' + prefName + '\')"]').classList.add("active");
   }
+
+
+// font dropdown
+var fontDropdownItems = document.querySelectorAll('.dropdown-content a');
+// loop through each dropdown item and add an event listener
+fontDropdownItems.forEach(function(item) {
+    item.addEventListener('click', function() {
+        // get the selected font from the 'data-font' attribute
+        var selectedFont = this.getAttribute('data-font');
+        document.getElementById('selectedFont').innerText = selectedFont;
+    });
+});
