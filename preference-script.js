@@ -86,22 +86,34 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// spcing slider
-//document.addEventListener('DOMContentLoaded', function() {
-    const lineSpacingSlider = document.getElementById("line-spacing-slider");
+// spacing slider
+const lineSpacingSlider = document.getElementById("line-spacing-slider");
+const charSpacingSlider = document.getElementById("character-spacing-slider");
 
-    // retrieve toggle state from chrome.storage.sync
-    chrome.storage.sync.get('prevLineSpacing', function(data) {
-        const prevLineSpacing = data.prevLineSpacing;
-        // set the line spacing based on chrome.storage.sync
-        if (prevLineSpacing !== undefined) {
-            lineSpacingSlider.value = prevLineSpacing;
-        }
-    });
+// retrieve line spacing value from chrome.storage.sync
+chrome.storage.sync.get('prevLineSpacing', function(data) {
+    const prevLineSpacing = data.prevLineSpacing;
+    // set the line spacing based on chrome.storage.sync
+    if (prevLineSpacing !== undefined) {
+        lineSpacingSlider.value = prevLineSpacing;
+    }
+});
+// retrieve char spacing value from chrome.storage
+chrome.storage.sync.get('prevCharSpacing', function(data) {
+    const prevCharSpacing = data.prevCharSpacing;
+    // set the char spacing based on chrome.storage
+    if (prevCharSpacing !== undefined) {
+        charSpacingSlider.value = prevCharSpacing;
+    }
+});
 
-    // listen for change event on line spacing slider
-    lineSpacingSlider.addEventListener('change', function() {
-        // store the line spacing pref in chrome.storage.sync
-        chrome.storage.sync.set({ 'prevLineSpacing': lineSpacingSlider.value });
-    });
-//});
+// listen for change event on line spacing slider
+lineSpacingSlider.addEventListener('change', function() {
+    // store the line spacing pref in chrome.storage.sync
+    chrome.storage.sync.set({ 'prevLineSpacing': lineSpacingSlider.value });
+});
+// listen for change event on char spacing slider
+charSpacingSlider.addEventListener('change', function() {
+    // store the char spacing pref in chrome.storage
+    chrome.storage.sync.set({ 'prevCharSpacing': charSpacingSlider.value });
+});

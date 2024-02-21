@@ -68,4 +68,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.lineSpacingValue !== undefined) {
         console.log("received line spacing value:", message.lineSpacingValue);
     }  
+    if (message.charSpacingValue !== undefined) {
+        console.log("received char spacing value:", message.charSpacingValue);
+    }
 });
