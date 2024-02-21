@@ -73,3 +73,17 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
         });
     }
 });
+
+// Listen for page refresh events
+chrome.webNavigation.onCommitted.addListener(function(details) {
+    if (details.transitionType === 'reload') {
+        chrome.storage.sync.get('toggleState', function(data) {
+            const enable = data.toggleState;
+            console.log("refreshed:", enable);
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                console.log("in background.js:", enable);
+                chrome.tabs.sendMessage(tabs[0].id, {message: enable});
+            });
+        });
+    }
+});
