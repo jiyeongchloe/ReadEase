@@ -60,3 +60,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
     }
 });
+
+
+// listen for chnages in the line spacing pref
+chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
+    if (changes.prevLineSpacing) {
+        const lineSpacing = changes.prevLineSpacing.newValue;
+        // send message to app.js with the new  value
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js (line spacing):", lineSpacing);
+            chrome.tabs.sendMessage(tabs[0].id, {lineSpacingValue: lineSpacing});
+        });
+    }
+});

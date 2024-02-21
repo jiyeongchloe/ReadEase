@@ -31,3 +31,9 @@ Add_Custom_Style(`
 // 2. put the user's preference into Add_Custom_Style
 // 3. need to import url for all the different language
 // 4. need to figure out how to let any website work
+
+
+// listen for messages form the background script
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    console.log("received by app.js:", message);
+})

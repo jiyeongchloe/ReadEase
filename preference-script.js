@@ -38,3 +38,22 @@ function openPref(prefName, tabButton) {
     tabButton.classList.add("active");
     //document.querySelector('[onclick="openPref(\'' + prefName + '\')"]').classList.add("active");
   }
+
+
+// spcing slider
+document.addEventListener('DOMContentLoaded', function() {
+    const lineSpacingSlider = document.getElementById("line-spacing-slider");
+
+    // retrieve toggle state from chrome.storage.sync
+    chrome.storage.sync.get('prevLineSpacing', function() {
+        const prevLineSpacing = data.prevLineSpacing;
+        // set the line spacing based on chrome.storage.sync
+        lineSpacingSlider = prevLineSpacing;
+    });
+
+    // listen for change event on line spacing slider
+    lineSpacingSlider.addEventListener('change', function() {
+        // store the line spacing pref in chrome.storage.sync
+        chrome.storage.sync.set({ 'prevLineSpacing': lineSpacingSlider });
+    });
+});
