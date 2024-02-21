@@ -24,6 +24,7 @@
     "default_popup": "login-popup.html"
   },
   "permissions": [
-    "identity"
+    "identity",
+    "storage"
   ]
 }

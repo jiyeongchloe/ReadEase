@@ -38,3 +38,23 @@ function openPref(prefName, tabButton) {
     tabButton.classList.add("active");
     //document.querySelector('[onclick="openPref(\'' + prefName + '\')"]').classList.add("active");
   }
+
+
+// Listen for changes to the toggle switch
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toggleButton');
+
+    // Retrieve toggle state from chrome.storage.sync
+    chrome.storage.sync.get('toggleState', function(data) {
+        const toggleState = data.toggleState;
+        // Set the toggle state based on chrome.storage.sync
+        toggleButton.checked = toggleState === 'on';
+    });
+
+    // Listen for change event on toggle switch
+    toggleButton.addEventListener('change', function() {
+        const enable = toggleButton.checked;
+        // Store the toggle state in chrome.storage.sync
+        chrome.storage.sync.set({ 'toggleState': enable ? 'on' : 'off' });
+    });
+});
