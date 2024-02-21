@@ -44,6 +44,15 @@ body {
     border-top: none;
     animation: fadeEffect 1s; /* Fading effect takes 1 second */
   }
+
+  /* Position the save button in bottom right corner */
+  .tabcontent button#fontSave,
+  .tabcontent button#spacingSave,
+  .tabcontent button#numberSave {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
   
   /* Go from zero to full opacity */
   @keyframes fadeEffect {
