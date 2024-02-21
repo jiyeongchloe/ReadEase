@@ -76,3 +76,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse('success');
     }
 });
+
+
+// Listen for changes in the toggle state
+chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
+    if (changes.toggleState) {
+        const enable = changes.toggleState.newValue;
+        // Send message to content script with the new toggle state
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js:", enable);
+            chrome.tabs.sendMessage(tabs[0].id, {message: enable});
+        });
+    }
+});
+
+// Listen for page refresh events
+chrome.webNavigation.onCommitted.addListener(function(details) {
+    console.log(details);
+    if (details.transitionType === 'reload') {
+        chrome.storage.sync.get('toggleState', function(data) {
+            const enable = data.toggleState;
+            console.log("refreshed:", enable);
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                console.log("in background.js:", enable);
+                chrome.tabs.sendMessage(tabs[0].id, {message: enable});
+            });
+        });
+    }
+});
+
+
