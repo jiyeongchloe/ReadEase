@@ -31,7 +31,9 @@ function is_user_signed_in() {
     return user_signed_in;
 }
 
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    // login stuff
     if (request.message === 'login') {
         if (is_user_signed_in()) {
             console.log("User is already signed in.");
@@ -58,5 +60,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             });
             return true;
         }
+    }
+
+    // save button stuff
+    if (request.message === 'saveFont') {
+        console.log("Font preferences saved!");
+        sendResponse('success');
+    }
+    if (request.message === 'saveSpacing') {
+        console.log("Spacing preferences saved!");
+        sendResponse('success');
+    }
+    if (request.message === 'saveNumber') {
+        console.log("Number preferences saved!");
+        sendResponse('success');
     }
 });
