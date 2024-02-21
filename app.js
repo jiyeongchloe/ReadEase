@@ -5,26 +5,56 @@ const site = window.location.hostname;
 alert('Injector - JS has been injected to: ' + site);
 
 // Add custom CSS - function
-const Add_Custom_Style = (css) =>
-  (document.head.appendChild(document.createElement('style')).innerHTML = css);
+const Add_Custom_Style = (css) => {
+    const styleElement = document.createElement('style');
+    // add the data-custom attribute
+    styleElement.setAttribute('data-custom', 'true');
+    // add the <style> element to the document
+    document.head.appendChild(styleElement).innerHTML = css
+}
+    //(document.head.appendChild(document.createElement('style data-custom')).innerHTML = css);
+
+// Remove custom CSS - function
+const Remove_Custom_Style = () => {
+    console.log("Removing custom styles...");
+    const customStyles = document.querySelectorAll('style[data-custom]');
+    console.log("found custom styles:", customStyles.length);
+    customStyles.forEach(style => {
+        console.log("Removing style:", style);
+        style.remove();
+    });
+};
+
 
 // Create Custom Element - Function
 function Create_Custom_Element(tag, attr_tag, attr_name, value) {
-  const custom_element = document.createElement(tag);
-  custom_element.setAttribute(attr_tag, attr_name);
-  custom_element.innerHTML = value;
-  document.body.append(custom_element);
+    const custom_element = document.createElement(tag);
+    custom_element.setAttribute(attr_tag, attr_name);
+    custom_element.innerHTML = value;
+    document.body.append(custom_element);
 }
 
-// This is where we can put the custom style.
-Add_Custom_Style(`
-    @import url("https://fonts.googleapis.com/css?family=Raleway");
-    * {
-        font-family: "Raleway" !important;
-        color: #0000FF !important;
-        letter-spacing: 2px;
+// listen for messages from the background script
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    console.log("received by app.js:", message);
+    if (message.message === 'on') {
+        console.log("turning on color!");
+        Add_Custom_Style(`
+            @import url("https://fonts.googleapis.com/css?family=Raleway");
+            * {
+                font-family: "Raleway" !important;
+                color: #0000FF !important;
+                letter-spacing: 2px;
+            }
+        `);
+    } else if (message.message === 'off') {
+        console.log("turning off color!");
+        Remove_Custom_Style();
     }
-`);
+});
+
+
+
 
 // I think what we should do is:
 // 1. scrape off the user's preference

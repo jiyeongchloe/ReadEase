@@ -60,3 +60,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
     }
 });
+
+
+// Listen for changes in the toggle state
+chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
+    if (changes.toggleState) {
+        const enable = changes.toggleState.newValue;
+        // Send message to content script with the new toggle state
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js:", enable);
+            chrome.tabs.sendMessage(tabs[0].id, {message: enable});
+        });
+    }
+});
