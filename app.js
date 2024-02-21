@@ -35,5 +35,7 @@ Add_Custom_Style(`
 
 // listen for messages form the background script
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    console.log("received by app.js:", message);
-})
+    if (message.lineSpacingValue !== undefined) {
+        console.log("received line spacing value:", message.lineSpacingValue);
+    }  
+});
