@@ -12,7 +12,6 @@ const Add_Custom_Style = (css) => {
     // add the <style> element to the document
     document.head.appendChild(styleElement).innerHTML = css
 }
-    //(document.head.appendChild(document.createElement('style data-custom')).innerHTML = css);
 
 // Remove custom CSS - function
 const Remove_Custom_Style = () => {
@@ -39,6 +38,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     console.log("received by app.js:", message);
     if (message.message === 'on') {
         console.log("turning on color!");
+        // this is where we insert custom style
         Add_Custom_Style(`
             @import url("https://fonts.googleapis.com/css?family=Raleway");
             * {
