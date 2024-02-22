@@ -54,9 +54,7 @@ function openPref(prefName, tabButton) {
     tablinksArray.forEach(function(btn) {
         btn.classList.remove("active");
     });
-    //for (i = 0; i < tablinks.length; i++) {
-      //tablinks[i].classList.remove("active");
-    //}
+
   
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(prefName).style.display = "block";
@@ -66,15 +64,25 @@ function openPref(prefName, tabButton) {
 
 
 
-// Listen for changes to the toggle switch
+// Listen for changes to the toggle switches
 document.addEventListener('DOMContentLoaded', function() {
     const toggleButton = document.getElementById('toggleButton');
+    const numConvertToggleButton = document.getElementById('numConvertToggleButton');
+    const cloudToggleButton = document.getElementById('cloudToggleButton');
 
     // Retrieve toggle state from chrome.storage.sync
     chrome.storage.sync.get('toggleState', function(data) {
         const toggleState = data.toggleState;
         // Set the toggle state based on chrome.storage.sync
         toggleButton.checked = toggleState === 'on';
+    });
+    chrome.storage.sync.get('numConvertToggleState', function(data) {
+        const numConvertToggleState = data.numConvertToggleState;
+        numConvertToggleButton.checked = numConvertToggleState === 'on';
+    });
+    chrome.storage.sync.get('cloudToggleState', function(data) {
+        const cloudToggleState = data.cloudToggleState;
+        cloudToggleButton.checked = cloudToggleState === 'on';
     });
 
     // Listen for change event on toggle switch
@@ -83,6 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Store the toggle state in chrome.storage.sync
         chrome.storage.sync.set({ 'toggleState': enable ? 'on' : 'off' });
     });
+    numConvertToggleButton.addEventListener('change', function() {
+        const enable = numConvertToggleButton.checked;
+        chrome.storage.sync.set({ 'numConvertToggleState': enable ? 'on' : 'off' });
+    });
+    cloudToggleButton.addEventListener('change', function() {
+      const enable = cloudToggleButton.checked;
+      chrome.storage.sync.set({ 'cloudToggleState': enable ? 'on' : 'off' });
+  });
 });
 
 
