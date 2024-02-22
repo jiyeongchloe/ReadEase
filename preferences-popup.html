@@ -20,7 +20,16 @@
   
     <div id="Spacing" class="tabcontent">
         <h3>Spacing</h3>
-        <p>This is where spacing preference settings go.</p>
+        <div class="spacing-container">
+            <div class="spacing-group">
+                <span class="spacing-category">Line Spacing</span>
+                <input type="range" min="1" max="10" value="5" class="spacing-slider" id="line-spacing-slider">
+            </div>
+            <div class="spacing-group">
+                <span class="spacing-category">Character Spacing</span>
+                <input type="range" min="1" max="10" value="5" class="spacing-slider" id="character-spacing-slider">
+            </div>
+        </div>
         <button id="spacingSave">Save</button>
     </div>
   

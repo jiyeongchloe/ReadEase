@@ -61,7 +61,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true;
         }
     }
-
+    
     // save button stuff
     if (request.message === 'saveFont') {
         console.log("Font preferences saved!");
@@ -92,7 +92,6 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
 
 // Listen for page refresh events
 chrome.webNavigation.onCommitted.addListener(function(details) {
-    console.log(details);
     if (details.transitionType === 'reload') {
         chrome.storage.sync.get('toggleState', function(data) {
             const enable = data.toggleState;
@@ -106,3 +105,30 @@ chrome.webNavigation.onCommitted.addListener(function(details) {
 });
 
 
+
+
+
+
+chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
+    // listen for chnages in the line spacing pref
+    if (changes.prevLineSpacing) {
+        console.log("line spacing changed!");
+        const lineSpacing = changes.prevLineSpacing.newValue;
+        // send message to app.js with the new  value
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js (line spacing):", lineSpacing);
+            chrome.tabs.sendMessage(tabs[0].id, {lineSpacingValue: lineSpacing});
+        });
+    }
+
+    // listen for changes in the char spacing pref
+    if (changes.prevCharSpacing) {
+        console.log("char spacing changed!");
+        const charSpacing = changes.prevCharSpacing.newValue;
+        // send message to app.js with the new value
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js (char spacing):", charSpacing);
+            chrome.tabs.sendMessage(tabs[0].id, {charSpacingValue: charSpacing});
+        });
+    }
+});

@@ -61,3 +61,14 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 // 2. put the user's preference into Add_Custom_Style
 // 3. need to import url for all the different language
 // 4. need to figure out how to let any website work
+
+
+// listen for messages form the background script
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.lineSpacingValue !== undefined) {
+        console.log("received line spacing value:", message.lineSpacingValue);
+    }  
+    if (message.charSpacingValue !== undefined) {
+        console.log("received char spacing value:", message.charSpacingValue);
+    }
+});
