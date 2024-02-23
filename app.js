@@ -134,7 +134,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         // send a message to background.js to request data from chrome.storage.sync
         chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
           if (response && response.syncData) {
-              console.log("Retrieved data from chrome.storage.sync because line spacing changed:", response.syncData);
+              console.log("Retrieved data from chrome.storage.sync because char spacing changed:", response.syncData);
               const Data = response.syncData;
               let font = "default";
               let size = "default";
@@ -149,7 +149,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
               // insert custom style
               Add_Custom_Style(font, size, lineSpace, charSpace);
           } else {
-              console.log("Failed to retrieve data from chrome.storage.sync (line spacing)");
+              console.log("Failed to retrieve data from chrome.storage.sync (char spacing)");
           }
       });
     }
