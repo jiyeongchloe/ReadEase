@@ -5,13 +5,35 @@ const site = window.location.hostname;
 alert('Injector - JS has been injected to: ' + site);
 
 // Add custom CSS - function
-const Add_Custom_Style = (css) => {
+const Add_Custom_Style = (options) => {
+    // default values for font, size, line spacing, and character spacing
+    const defaultOptions = {
+        fontFamily: "Arial, sans-serif",
+        fontSize: 16,
+        lineSpacing: 1.5,
+        characterSpacing: 2
+    };
+
+    // merge default options with user-provided options
+    const mergedOptions = { ...defaultOptions, ...options };
+
+    const css = `
+        body {
+            font-family: ${mergedOptions.fontFamily}, sans-serif;
+            font-size: ${mergedOptions.fontSize}px;
+            line-height: ${mergedOptions.lineSpacing};
+            letter-spacing: ${mergedOptions.characterSpacing}px;
+        }
+    `;
+
     const styleElement = document.createElement('style');
     // add the data-custom attribute
     styleElement.setAttribute('data-custom', 'true');
     // add the <style> element to the document
     document.head.appendChild(styleElement).innerHTML = css
 }
+
+
 
 // Remove custom CSS - function
 const Remove_Custom_Style = () => {
@@ -39,14 +61,15 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.message === 'on') {
         console.log("turning on color!");
         // this is where we insert custom style
-        Add_Custom_Style(`
-            @import url("https://fonts.googleapis.com/css?family=Raleway");
-            * {
-                font-family: "Raleway" !important;
-                color: #0000FF !important;
-                letter-spacing: 2px;
+        // send a message to background.js to request data from chrome.storage.sync
+        chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
+            if (response && response.syncData) {
+                console.log("Retrieved data from chrome.storage.sync:", response.syncData);
+
+            } else {
+                console.log("Failed to retrieve data from chrome.storage.sync");
             }
-        `);
+        });
     } else if (message.message === 'off') {
         console.log("turning off color!");
         Remove_Custom_Style();
