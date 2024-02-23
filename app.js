@@ -4,8 +4,9 @@ const site = window.location.hostname;
 // alert
 alert('Injector - JS has been injected to: ' + site);
 
+
 // Add custom CSS - function
-const Add_Custom_Style = (options) => {
+const Add_Custom_Style = (font, size, lineSpace, charSpace) => {
     // default values for font, size, line spacing, and character spacing
     const defaultOptions = {
         fontFamily: "Arial, sans-serif",
@@ -14,15 +15,19 @@ const Add_Custom_Style = (options) => {
         characterSpacing: 2
     };
 
-    // merge default options with user-provided options
-    const mergedOptions = { ...defaultOptions, ...options };
+    const options = {
+        fontFamily: font !== "default" ? font : defaultOptions.fontFamily,
+        fontSize: size !== "default" ? parseInt(size) : defaultOptions.fontSize,
+        lineSpacing: lineSpace !== "default" ?  parseFloat(lineSpace) : defaultOptions.lineSpacing,
+        characterSpacing: charSpace !== "default" ? parseFloat(charSpace) : defaultOptions.characterSpacing
+    };
 
     const css = `
         body {
-            font-family: ${mergedOptions.fontFamily}, sans-serif;
-            font-size: ${mergedOptions.fontSize}px;
-            line-height: ${mergedOptions.lineSpacing};
-            letter-spacing: ${mergedOptions.characterSpacing}px;
+            font-family: ${options.fontFamily}, sans-serif;
+            font-size: ${options.fontSize}px;
+            line-height: ${options.lineSpacing};
+            letter-spacing: ${options.characterSpacing}px;
         }
     `;
 
@@ -65,7 +70,19 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
             if (response && response.syncData) {
                 console.log("Retrieved data from chrome.storage.sync:", response.syncData);
-
+                const Data = response.syncData;
+                let font = "default";
+                let size = "default";
+                let lineSpace = "default";
+                let charSpace = "default";
+                if (Data.prevLineSpacing) {
+                    lineSpace = Data.prevLineSpacing;
+                }
+                if (Data.prevCharSpacing) {
+                    charSpace = Data.prevCharSpacing;
+                }
+                // insert custom style
+                Add_Custom_Style(font, size, lineSpace, charSpace);
             } else {
                 console.log("Failed to retrieve data from chrome.storage.sync");
             }
