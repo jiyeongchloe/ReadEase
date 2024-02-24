@@ -14,6 +14,11 @@ numbersTab.addEventListener('click', function() {
     openPref('Numbers', numbersTab);
 });
 
+var profileTab = document.getElementById('profileTab');
+profileTab.addEventListener('click', function() {
+    openPref('Profile', profileTab);
+});
+
 // save button things
 var fontSave = document.getElementById('fontSave');
 fontSave.addEventListener('click', function () {
@@ -117,3 +122,4 @@ charSpacingSlider.addEventListener('change', function() {
     // store the char spacing pref in chrome.storage
     chrome.storage.sync.set({ 'prevCharSpacing': charSpacingSlider.value });
 });
+
