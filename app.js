@@ -71,4 +71,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.charSpacingValue !== undefined) {
         console.log("received char spacing value:", message.charSpacingValue);
     }
+    if (message.numConvertToggleState !== undefined) {
+        console.log("received num convert toggle state:", message.numConvertToggleState);
+    }
+    if (message.cloudToggleState !== undefined) {
+        console.log("received cloud toggle state:", message.cloudToggleState);
+    }
 });
