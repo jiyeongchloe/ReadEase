@@ -146,3 +146,18 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
         });
     }
 });
+
+
+// listen for request message from app.js
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === "getSyncData") {
+        console.log("got sync data request...");
+        // retrieve data from chrome.storage.sync
+        chrome.storage.sync.get(null, function(data) {
+            console.log(data);
+            // send the retrieved data back to app.js
+            sendResponse({ syncData: data });
+        });
+        return true;
+    }
+});
