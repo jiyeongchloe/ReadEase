@@ -68,6 +68,13 @@ function openPref(prefName, tabButton) {
   }
 
 
+// log out things
+document.querySelector('#sign-out').addEventListener('click', function () {
+    chrome.runtime.sendMessage({ message: 'logout' }, function () {
+    });
+});
+
+
 
 // Listen for changes to the toggle switches
 document.addEventListener('DOMContentLoaded', function() {

@@ -61,26 +61,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true;
         }
     }
+    // logout stuff
     if (request.message === 'logout') {
         chrome.storage.local.remove('accessToken', function() {
-            console.log('Access token removed');
             user_signed_in = false;
-            console.log("user is logging out");
-            window.close();
-            sendResponse('success');
-            chrome.action.setPopup({ popup: 'login-popup.html'}, function() {
-                
-                console.log("success message sent");
-            });
+            console.log('Access token removed');
         });
     }
 
-    if (sender.tab) {
-        console.log("Message received from tab:", sender.tab.id);
-    }
-    console.log("sender: ", sender);
-
-    
     // save button stuff
     if (request.message === 'saveFont') {
         console.log("Font preferences saved!");
