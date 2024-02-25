@@ -94,59 +94,60 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 // 4. need to figure out how to let any website work
 
 // listen for messages form the background script
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.lineSpacingValue !== undefined) {
-    console.log('received line spacing value:', message.lineSpacingValue);
-    // send a message to background.js to request data from chrome.storage.sync
-    chrome.runtime.sendMessage({ action: 'getSyncData' }, function (response) {
-      if (response && response.syncData) {
-        console.log(
-          'Retrieved data from chrome.storage.sync because line spacing changed:',
-          response.syncData
-        );
-        const Data = response.syncData;
-        let font = 'default';
-        let size = 'default';
-        let lineSpace = 'default';
-        let charSpace = 'default';
-        if (Data.prevLineSpacing) {
-          lineSpace = Data.prevLineSpacing;
-        }
-        if (Data.prevCharSpacing) {
-          charSpace = Data.prevCharSpacing;
-        }
-        // insert custom style
-        Add_Custom_Style(font, size, lineSpace, charSpace);
-      } else {
-        console.log('Failed to retrieve data from chrome.storage.sync (line spacing)');
-      }
-    });
-  }
-  if (message.charSpacingValue !== undefined) {
-    console.log('received char spacing value:', message.charSpacingValue);
-    // send a message to background.js to request data from chrome.storage.sync
-    chrome.runtime.sendMessage({ action: 'getSyncData' }, function (response) {
-      if (response && response.syncData) {
-        console.log(
-          'Retrieved data from chrome.storage.sync because char spacing changed:',
-          response.syncData
-        );
-        const Data = response.syncData;
-        let font = 'default';
-        let size = 'default';
-        let lineSpace = 'default';
-        let charSpace = 'default';
-        if (Data.prevLineSpacing) {
-          lineSpace = Data.prevLineSpacing;
-        }
-        if (Data.prevCharSpacing) {
-          charSpace = Data.prevCharSpacing;
-        }
-        // insert custom style
-        Add_Custom_Style(font, size, lineSpace, charSpace);
-      } else {
-        console.log('Failed to retrieve data from chrome.storage.sync (char spacing)');
-      }
-    });
-  }
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.lineSpacingValue !== undefined) {
+        console.log("received line spacing value:", message.lineSpacingValue);
+        // send a message to background.js to request data from chrome.storage.sync
+        chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
+            if (response && response.syncData) {
+                console.log("Retrieved data from chrome.storage.sync because line spacing changed:", response.syncData);
+                const Data = response.syncData;
+                let font = "default";
+                let size = "default";
+                let lineSpace = "default";
+                let charSpace = "default";
+                if (Data.prevLineSpacing) {
+                    lineSpace = Data.prevLineSpacing;
+                }
+                if (Data.prevCharSpacing) {
+                    charSpace = Data.prevCharSpacing;
+                }
+                // insert custom style
+                Add_Custom_Style(font, size, lineSpace, charSpace);
+            } else {
+                console.log("Failed to retrieve data from chrome.storage.sync (line spacing)");
+            }
+        });
+    }  
+    if (message.charSpacingValue !== undefined) {
+        console.log("received char spacing value:", message.charSpacingValue);
+        // send a message to background.js to request data from chrome.storage.sync
+        chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
+          if (response && response.syncData) {
+              console.log("Retrieved data from chrome.storage.sync because char spacing changed:", response.syncData);
+              const Data = response.syncData;
+              let font = "default";
+              let size = "default";
+              let lineSpace = "default";
+              let charSpace = "default";
+              if (Data.prevLineSpacing) {
+                  lineSpace = Data.prevLineSpacing;
+              }
+              if (Data.prevCharSpacing) {
+                  charSpace = Data.prevCharSpacing;
+              }
+              // insert custom style
+              Add_Custom_Style(font, size, lineSpace, charSpace);
+          } else {
+              console.log("Failed to retrieve data from chrome.storage.sync (char spacing)");
+          }
+      });
+    }
+    if (message.numConvertToggleState !== undefined) {
+        console.log("received num convert toggle state:", message.numConvertToggleState);
+    }
+    if (message.cloudToggleState !== undefined) {
+        console.log("received cloud toggle state:", message.cloudToggleState);
+    }
 });
+

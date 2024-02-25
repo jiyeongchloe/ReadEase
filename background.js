@@ -88,6 +88,20 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
             chrome.tabs.sendMessage(tabs[0].id, {message: enable});
         });
     }
+    if (changes.numConvertToggleState) {
+        const enable = changes.numConvertToggleState.newValue;
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js:", enable);
+            chrome.tabs.sendMessage(tabs[0].id, {numConvertToggleState: enable});
+        });
+    }
+    if (changes.cloudToggleState) {
+        const enable = changes.cloudToggleState.newValue;
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js:", enable);
+            chrome.tabs.sendMessage(tabs[0].id, {cloudToggleState: enable});
+        });
+    }
 });
 
 // Listen for page refresh events
