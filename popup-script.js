@@ -3,4 +3,3 @@ document.querySelector('#sign-in').addEventListener('click', function () {
         if (response === 'success') window.close();
     });
 });
-
