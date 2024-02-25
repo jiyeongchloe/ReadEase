@@ -142,7 +142,7 @@ input:checked + .small-slider {
   background-color: #6ca0f5;
 }
 
-/* On state */
+/* Off state */
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);

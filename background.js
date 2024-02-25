@@ -61,7 +61,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true;
         }
     }
-    
+    // logout stuff
+    if (request.message === 'logout') {
+        chrome.storage.local.remove('accessToken', function() {
+            user_signed_in = false;
+            console.log('Access token removed');
+            chrome.action.setPopup({ popup: 'login-popup.html'}, function() {
+            });
+        });
+    }
+
     // save button stuff
     if (request.message === 'saveFont') {
         console.log("Font preferences saved!");
@@ -78,7 +87,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 
-// Listen for changes in the toggle state
+// Listen for changes in the big toggle state
 chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
     if (changes.toggleState) {
         const enable = changes.toggleState.newValue;
