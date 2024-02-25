@@ -76,10 +76,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.log("Font preferences saved!");
         sendResponse('success');
     }
-    if (request.message === 'saveSpacing') {
-        console.log("Spacing preferences saved!");
-        sendResponse('success');
-    }
     if (request.message === 'saveNumber') {
         console.log("Number preferences saved!");
         sendResponse('success');
