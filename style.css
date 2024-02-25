@@ -216,7 +216,7 @@ input:checked + .small-slider:before {
 .save-dropdown-content {
   display: none;
   position: absolute;
-  top: 10px;
+  top: calc(100% + 10px);
   right: 10px;
   background-color: #ddd;
   min-width: 160px;
