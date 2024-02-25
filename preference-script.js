@@ -70,6 +70,7 @@ function openPref(prefName, tabButton) {
 
 // log out things
 document.querySelector('#sign-out').addEventListener('click', function () {
+    chrome.storage.sync.set({ 'toggleState': 'off' });
     chrome.runtime.sendMessage({ message: 'logout' }, function () {
     });
 });
