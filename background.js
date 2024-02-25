@@ -61,7 +61,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true;
         }
     }
-    
+    // logout stuff
+    if (request.message === 'logout') {
+        chrome.storage.local.remove('accessToken', function() {
+            user_signed_in = false;
+            console.log('Access token removed');
+            chrome.action.setPopup({ popup: 'login-popup.html'}, function() {
+            });
+        });
+    }
+
     // save button stuff
     if (request.message === 'saveFont') {
         console.log("Font preferences saved!");
@@ -78,7 +87,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 
-// Listen for changes in the toggle state
+// Listen for changes in the big toggle state
 chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
     if (changes.toggleState) {
         const enable = changes.toggleState.newValue;
@@ -144,5 +153,20 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
             console.log("in background.js (char spacing):", charSpacing);
             chrome.tabs.sendMessage(tabs[0].id, {charSpacingValue: charSpacing});
         });
+    }
+});
+
+
+// listen for request message from app.js
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.action === "getSyncData") {
+        console.log("got sync data request...");
+        // retrieve data from chrome.storage.sync
+        chrome.storage.sync.get(null, function(data) {
+            console.log(data);
+            // send the retrieved data back to app.js
+            sendResponse({ syncData: data });
+        });
+        return true;
     }
 });

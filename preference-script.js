@@ -14,6 +14,11 @@ numbersTab.addEventListener('click', function() {
     openPref('Numbers', numbersTab);
 });
 
+var profileTab = document.getElementById('profileTab');
+profileTab.addEventListener('click', function() {
+    openPref('Profile', profileTab);
+});
+
 // save button things
 var fontSave = document.getElementById('fontSave');
 fontSave.addEventListener('click', function () {
@@ -61,6 +66,14 @@ function openPref(prefName, tabButton) {
     tabButton.classList.add("active");
     //document.querySelector('[onclick="openPref(\'' + prefName + '\')"]').classList.add("active");
   }
+
+
+// log out things
+document.querySelector('#sign-out').addEventListener('click', function () {
+    chrome.storage.sync.set({ 'toggleState': 'off' });
+    chrome.runtime.sendMessage({ message: 'logout' }, function () {
+    });
+});
 
 
 
@@ -135,5 +148,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+
 
 
