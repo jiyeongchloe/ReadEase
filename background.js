@@ -166,3 +166,20 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         return true;
     }
 });
+
+
+// for debugging preset saves
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.debugging) {
+        console.log("for debugging:", request.debugging);
+    }
+    if (request.debug) {
+        console.log("this is the data that's coming in:", request.debug);
+    }
+    if (request.name) {
+        console.log("name: ", request.name);
+    }
+    if (request.check) {
+        console.log("check:", request.check);
+    }
+});
