@@ -13,14 +13,24 @@
         ]
     }
   ],
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApHN2OG6cuDn/rYtAjt2LP4JJWSOj/EK89KZu7clfw/AY+FOWpqjUiPrhNjI4kg6yDZ+XtNDZp7BgU3fzImCFzl9nCk0DFTD/iFv/uSSrS09+KbU6gc1namgn8ACvxUd0/kczkGjLkiJg3U69osP4y2bXDpSpV3xMi855uIDzTHctulyLyPjmSmXdirGqWQWT6X26j9q240V1aqj4OcKEopae0xf/CF0fGDKxyuEnp+zBVNLYF0us0Omm+QaKhHwlbh36iIsaYRu5MjFAoLqTRlNSmrg4Oz9csXQ4SYRXCysYkxvFX8wcQxi1dUuBMgLYo3+BgctEzryPwsnoIWRVewIDAQAB",
+  "key": 
+  "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApHN2OG6cuDn/rYtAjt2LP4JJWSOj/EK89KZu7clfw/AY+FOWpqjUiPrhNjI4kg6yDZ+XtNDZp7BgU3fzImCFzl9nCk0DFTD/iFv/uSSrS09+KbU6gc1namgn8ACvxUd0/kczkGjLkiJg3U69osP4y2bXDpSpV3xMi855uIDzTHctulyLyPjmSmXdirGqWQWT6X26j9q240V1aqj4OcKEopae0xf/CF0fGDKxyuEnp+zBVNLYF0us0Omm+QaKhHwlbh36iIsaYRu5MjFAoLqTRlNSmrg4Oz9csXQ4SYRXCysYkxvFX8wcQxi1dUuBMgLYo3+BgctEzryPwsnoIWRVewIDAQAB",
   "icons": {
-
+    "128": "Readease_128.jpg",
+    "48": "Readease_48.jpg",
+    "32": "Readease_32.jpg",
+    "16": "Readease_16.jpg"
    },
   "background": {
     "service_worker": "background.js"
   },
   "action": {
+    "default_icon": {
+        "128": "Readease_128.jpg",
+        "48": "Readease_48.jpg",
+        "32": "Readease_32.jpg",
+        "16": "Readease_16.jpg"
+      },
     "default_popup": "login-popup.html"
   },
   "permissions": [
