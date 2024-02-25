@@ -150,4 +150,3 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         console.log("received cloud toggle state:", message.cloudToggleState);
     }
 });
-
