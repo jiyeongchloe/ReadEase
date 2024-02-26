@@ -166,3 +166,21 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.storage.sync.set({ prevCharSpacing: charSpacingSlider.value });
   });
 });
+
+
+
+// font size stuff
+document.addEventListener('DOMContentLoaded', function () {
+    const fontSize = document.getElementById('number');
+
+    fontSize.addEventListener('change', function () {
+        chrome.storage.sync.set({ prevFontSize: fontSize.value });
+    });
+
+    chrome.storage.sync.get('prevFontSize', function (data) {
+        const prevFontSize = data.prevFontSize;
+        if (prevFontSize !== undefined) {
+            fontSize.value = prevFontSize;
+        }
+    });
+});
