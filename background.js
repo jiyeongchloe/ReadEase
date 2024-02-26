@@ -95,16 +95,26 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
     }
     if (changes.numConvertToggleState) {
         const enable = changes.numConvertToggleState.newValue;
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            console.log("in background.js:", enable);
-            chrome.tabs.sendMessage(tabs[0].id, {numConvertToggleState: enable});
+        chrome.storage.sync.get('toggleState', function (data) {
+            if (data.toggleState === 'on') {
+                // send message to app.js with the new  value
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    console.log("in background.js:", enable);
+                    chrome.tabs.sendMessage(tabs[0].id, {numConvertToggleState: enable});
+                });
+            }
         });
     }
     if (changes.cloudToggleState) {
         const enable = changes.cloudToggleState.newValue;
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            console.log("in background.js:", enable);
-            chrome.tabs.sendMessage(tabs[0].id, {cloudToggleState: enable});
+        chrome.storage.sync.get('toggleState', function (data) {
+            if (data.toggleState === 'on') {
+                // send message to app.js with the new  value
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    console.log("in background.js:", enable);
+                    chrome.tabs.sendMessage(tabs[0].id, {cloudToggleState: enable});
+                });
+            }
         });
     }
 });
