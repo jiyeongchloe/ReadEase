@@ -46,6 +46,16 @@ const Remove_Custom_Style = () => {
   });
 };
 
+const Remove_Custom_Blur = () => {
+  console.log('Removing custom blurs...');
+  const customStyles = document.querySelectorAll('style[blurring]');
+  console.log('found custom styles:', customStyles.length);
+  customStyles.forEach((style) => {
+    console.log('Removing style:', style);
+    style.remove();
+  });
+};
+
 // Create Custom Element - Function
 function Create_Custom_Element(tag, attr_tag, attr_name, value) {
   const custom_element = document.createElement(tag);
@@ -77,6 +87,7 @@ function blurNumbersOnPage() {
   const styleBlur = document.createElement('style');
   // add the data-custom attribute
   styleBlur.setAttribute('data-custom', 'true');
+  styleBlur.setAttribute('blurring', 'true');
   const blurCSS = `
           .blur {
             filter: blur(5px);
@@ -97,14 +108,7 @@ function blurNumbersOnPage() {
   });
 }
 
-document.querySelectorAll('.blur').forEach((elem) => {
-  elem.addEventListener('mouseover', function () {
-    this.classList.add('hover');
-  });
-  elem.addEventListener('mouseout', function () {
-    this.classList.remove('hover');
-  });
-});
+
 
 
 // listen for messages from the background script
@@ -113,7 +117,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.message === 'on') {
     // number blur thing
     // Call the function when the page loads
-    blurNumbersOnPage();
+    // blurNumbersOnPage();
 
 
     console.log('turning on color!');
@@ -206,6 +210,19 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     }
     if (message.cloudToggleState !== undefined) {
         console.log("received cloud toggle state:", message.cloudToggleState);
+        if (message.cloudToggleState === 'on') {
+            blurNumbersOnPage();
+            document.querySelectorAll('.blur').forEach((elem) => {
+              elem.addEventListener('mouseover', function () {
+                this.classList.add('hover');
+              });
+              elem.addEventListener('mouseout', function () {
+                this.classList.remove('hover');
+              });
+            });
+        } else {
+            Remove_Custom_Blur();
+        }
     }
 });
 
