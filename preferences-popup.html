@@ -2,6 +2,10 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
   </head>
 
   <!-- Tab links -->
@@ -64,7 +68,13 @@
         />
       </div>
     </div>
-    <button id="spacingSave">Save</button>
+    <div class="save-button-container">
+        <button class="save-button">Save to Preset</div>
+            <div class="save-dropdown-content" id="save-dropdown">
+                <!-- preset options to be dynamically added here -->
+            </div>
+        </div>
+    </div>
   </div>
 
   <div id="Numbers" class="tabcontent">
@@ -80,7 +90,14 @@
       </div>
       <div class="options-group">
         <!-- cloud over mouse toggle -->
-        <span class="options-category">Cloud over Mouse</span>
+        <span class="options-category">Cloud over Number</span>
+        <div class="tooltip">
+          <i class="fas fa-question-circle"></i>
+          <span class="tooltiptext"
+            >Cloud will blur the numbers unless you put your mouse over it, allowing you to read the
+            numbers one by one</span
+          >
+        </div>
         <label class="small-toggle">
           <input type="checkbox" id="cloudToggleButton" />
           <span class="small-slider"></span>
