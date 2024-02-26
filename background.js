@@ -172,7 +172,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 
-// font size stuff
+// font stuff
 chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
     if (changes.prevFontSize) {
         console.log("font size changed!");
@@ -181,6 +181,15 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             console.log("in background.js (font size):", fontSize);
             chrome.tabs.sendMessage(tabs[0].id, {fontSizeValue: fontSize});
+        });
+    }
+    if (changes.prevFontType) {
+        console.log("font type changed!");
+        const fontType = changes.prevFontType.newValue;
+        // send message to app.js with new value
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js (font type):", fontType);
+            chrome.tabs.sendMessage(tabs[0].id, {fontTypeValue: fontType});
         });
     }
 });

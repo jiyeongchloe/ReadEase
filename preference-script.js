@@ -67,6 +67,7 @@ fontDropdownItems.forEach(function (item) {
     // get the selected font from the 'data-font' attribute
     var selectedFont = this.getAttribute('data-font');
     document.getElementById('selectedFont').innerText = selectedFont;
+    chrome.storage.sync.set({ prevFontType: selectedFont });
   });
 });
 
@@ -185,6 +186,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // set the font size based on chrome.storage
     if (prevFontSize !== undefined) {
       fontSize.value = prevFontSize;
+    }
+  });
+
+  // retrieve font type value from chrome.storage
+  const fontType = document.getElementById('selectedFont');
+  chrome.storage.sync.get('prevFontType', function (data) {
+    const prevFontType = data.prevFontType;
+    // set the font type based on chrome storage
+    if (prevFontType !== undefined) {
+        fontType.innerText = prevFontType;
     }
   });
 });

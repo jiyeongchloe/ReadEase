@@ -78,6 +78,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         if (Data.prevFontSize) {
           size = Data.prevFontSize;
         }
+        if (Data.prevFontType) {
+          font = Data.prevFontType;
+        }
         // insert custom style
         Add_Custom_Style(font, size, lineSpace, charSpace);
       } else {
@@ -118,6 +121,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                 if (Data.prevFontSize) {
                     size = Data.prevFontSize;
                 }
+                if (Data.prevFontType) {
+                    font = Data.prevFontType;
+                }
                 // insert custom style
                 Add_Custom_Style(font, size, lineSpace, charSpace);
             } else {
@@ -141,6 +147,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
               }
               if (Data.prevCharSpacing) {
                   charSpace = Data.prevCharSpacing;
+              }
+              if (Data.prevFontSize) {
+                size = Data.prevFontSize;
+              }
+              if (Data.prevFontType) {
+                font = Data.prevFontType;
               }
               // insert custom style
               Add_Custom_Style(font, size, lineSpace, charSpace);
@@ -169,12 +181,45 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                 if (Data.prevFontSize) {
                     size = Data.prevFontSize;
                 }
+                if (Data.prevFontType) {
+                  font = Data.prevFontType;
+                }
                 // insert custom style
                 Add_Custom_Style(font, size, lineSpace, charSpace);
             } else {
                 console.log("Failed to retrieve data from chrome.storage sync (font size)");
             }
         });
+    }
+    if (message.fontTypeValue !== undefined) {
+      console.log("received font type value:", message.fontTypeValue);
+      // send a message to background.js to request data
+      chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
+          if (response && response.syncData) {
+              console.log("Retrieved data from chrome.storage.sync because font type changed:", response.syncData);
+              const Data = response.syncData;
+              let font = "default";
+              let size = "default";
+              let lineSpace = "default";
+              let charSpace = "default";
+              if (Data.prevLineSpacing) {
+                  lineSpace = Data.prevLineSpacing;
+              }
+              if (Data.prevCharSpacing) {
+                  charSpace = Data.prevCharSpacing;
+              }
+              if (Data.prevFontSize) {
+                  size = Data.prevFontSize;
+              }
+              if (Data.prevFontType) {
+                  font = Data.prevFontType;
+              }
+              // insert custom style
+              Add_Custom_Style(font, size, lineSpace, charSpace);
+          } else {
+              console.log("Failed to retrieve data from chrome.storage sync (font size)");
+          }
+      });
     }
     if (message.numConvertToggleState !== undefined) {
         console.log("received num convert toggle state:", message.numConvertToggleState);
