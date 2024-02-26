@@ -81,9 +81,6 @@ function blurNumbers(element) {
 
 // Function to traverse through DOM and blur numbers
 function blurNumbersOnPage() {
-  console.log(" ");
-  console.log("blurNumbersOnPage was called...");
-
   const styleBlur = document.createElement('style');
   // add the data-custom attribute
   styleBlur.setAttribute('data-custom', 'true');
@@ -115,11 +112,6 @@ function blurNumbersOnPage() {
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log('received by app.js:', message);
   if (message.message === 'on') {
-    // number blur thing
-    // Call the function when the page loads
-    // blurNumbersOnPage();
-
-
     console.log('turning on color!');
     // this is where we insert custom style
     // send a message to background.js to request data from chrome.storage.sync
@@ -127,6 +119,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       if (response && response.syncData) {
         console.log('Retrieved data from chrome.storage.sync:', response.syncData);
         const Data = response.syncData;
+        if (Data.cloudToggleState === 'on') {
+            blurNumbersOnPage();
+        }
         let font = 'default';
         let size = 'default';
         let lineSpace = 'default';
@@ -212,19 +207,19 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         console.log("received cloud toggle state:", message.cloudToggleState);
         if (message.cloudToggleState === 'on') {
             blurNumbersOnPage();
-            document.querySelectorAll('.blur').forEach((elem) => {
-              elem.addEventListener('mouseover', function () {
-                this.classList.add('hover');
-              });
-              elem.addEventListener('mouseout', function () {
-                this.classList.remove('hover');
-              });
-            });
         } else {
             Remove_Custom_Blur();
         }
     }
 });
 
+document.querySelectorAll('.blur').forEach((elem) => {
+  elem.addEventListener('mouseover', function () {
+    this.classList.add('hover');
+  });
+  elem.addEventListener('mouseout', function () {
+    this.classList.remove('hover');
+  });
+});
 
 
