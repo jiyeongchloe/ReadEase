@@ -2,11 +2,66 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="style.css" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .center {
+                text-align: center;
+            }
+            #logo {
+                width: 50px;
+                height: auto;
+                margin-bottom: 20px;
+            }
+            p {
+                font-size: 18px;
+                color: #000000;
+                margin-bottom: 20px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #e4b457;
+                color: #343331;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
+            button:hover {
+                background-color: #dba53b;
+            }
+            .note-box {
+                background-color: #ffffcc;
+                border: 1px solid #dddddd;
+                border-radius: 5px;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            note {
+                font-size: 15px;
+                color: #000000;
+                line-height: 1.5;
+            }
+        </style>
     </head>
     <body>
         <div class="center">
-            <p>Click the button below to sign in</p>
+            <img src="./Readease_32.png" alt="ReadEase_Logo" id="readease-logo">
+            <h2>Welcome to ReadEase!</h2>
+            <p>Click the button below to sign in using your Google Account</p>
             <button id="sign-in">Sign In</button>
+            <div class="note-box">
+                <note>After signing in, click on the extension icon again to access our text manipulation features!</note>
+            </div>
             <script src="popup-script.js"></script>
         </div>
     </body>
