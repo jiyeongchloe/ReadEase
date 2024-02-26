@@ -243,6 +243,7 @@ function savePresetToStorage(presetName, data) {
         var presets = result.presets || {};
         presets[presetName] = data;
         chrome.storage.sync.set({ 'presets': presets}, function() {
+            alert("preset created and updated!");
             location.reload;
         });
     });
