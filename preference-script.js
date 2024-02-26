@@ -88,7 +88,8 @@ function increaseValue() {
   value = isNaN(value) ? 0 : value;
   value++;
   document.getElementById('number').value = value;
-  chrome.storage.sync.set({ prevFontSize: value });
+  var value_string = value.toString();
+  chrome.storage.sync.set({ prevFontSize: value_string });
 }
 
 function decreaseValue() {
@@ -97,7 +98,8 @@ function decreaseValue() {
   value < 1 ? (value = 1) : '';
   value--;
   document.getElementById('number').value = value;
-  chrome.storage.sync.set({ prevFontSize: value });
+  var value_string = value.toString();
+  chrome.storage.sync.set({ prevFontSize: value_string });
 }
 
 // log out things
