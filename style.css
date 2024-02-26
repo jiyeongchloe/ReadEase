@@ -307,3 +307,10 @@ input:checked + .small-slider:before {
   margin-bottom: 20px;
 }
 
+.blur {
+  filter: blur(5px);
+  cursor: pointer;
+}
+.blur:hover {
+  filter: none;
+}
