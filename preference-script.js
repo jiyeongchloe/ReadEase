@@ -25,7 +25,6 @@ fontSave.addEventListener('click', function () {
   chrome.runtime.sendMessage({ message: 'saveFont' }, function () {});
 });
 
-
 var numberSave = document.getElementById('numberSave');
 numberSave.addEventListener('click', function () {
   chrome.runtime.sendMessage({ message: 'saveNumber' }, function () {});
@@ -163,87 +162,113 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
-
 // spacing save button things
 function saveToPreset(newData, preset_name) {
-    chrome.storage.sync.get('presets', function(data) {
-        var name = preset_name;
-        var presets = data.presets;
+  chrome.storage.sync.get('presets', function (data) {
+    var name = preset_name;
+    var presets = data.presets;
 
-        // sending to background.js for debugging
-        chrome.runtime.sendMessage({ debugging: presets[name] }, function () {
-        });
-        chrome.runtime.sendMessage({ debug: newData }, function () {});
-        chrome.runtime.sendMessage({ name: name }, function() {});
-        if (newData.prevCharSpacing) {
-            presets[name].prevCharSpacing = newData.prevCharSpacing;
-        }
-        if (newData.prevLineSpacing) {
-            presets[name].prevLineSpacing = newData.prevLineSpacing;
-        }
-        chrome.storage.sync.set({'presets': presets}, function() {
-        });
-        alert("preset updated!");
-    });
+    // sending to background.js for debugging
+    chrome.runtime.sendMessage({ debugging: presets[name] }, function () {});
+    chrome.runtime.sendMessage({ debug: newData }, function () {});
+    chrome.runtime.sendMessage({ name: name }, function () {});
+    if (newData.prevCharSpacing) {
+      presets[name].prevCharSpacing = newData.prevCharSpacing;
+    }
+    if (newData.prevLineSpacing) {
+      presets[name].prevLineSpacing = newData.prevLineSpacing;
+    }
+    chrome.storage.sync.set({ presets: presets }, function () {});
+    alert('preset updated!');
+  });
 }
 
-document.querySelector('.save-button').addEventListener('click', function() {
-    document.getElementById('save-dropdown').style.display = 'block';
+document.querySelector('.save-button').addEventListener('click', function () {
+  document.getElementById('save-dropdown').style.display = 'block';
 });
 // close dropdown when clicking outside
-window.addEventListener('click', function(event) {
-    if (!event.target.matches('.save-button')) {
-        var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
-        for (var i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.style.display === 'block') {
-                openDropdown.style.display = 'none';
-            }
-        }
+window.addEventListener('click', function (event) {
+  if (!event.target.matches('.save-button')) {
+    var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.style.display === 'block') {
+        openDropdown.style.display = 'none';
+      }
     }
+  }
 });
 // populate dropdown with preset options
 var save_dropdown = document.getElementById('save-dropdown');
-chrome.storage.sync.get('presets', function(data) {
-    const presets = data.presets;
-    for (var preset_name in presets) {
-        (function(preset_name) {
-            var option = document.createElement('a');
-            option.href = '#';
-            option.textContent = preset_name;
-            option.onclick = function() {
-                chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function(data) {
-                    saveToPreset(data, preset_name);
-                });
-            };
-            save_dropdown.appendChild(option);
-        })(preset_name);        
-    }
+chrome.storage.sync.get('presets', function (data) {
+  const presets = data.presets;
+  for (var preset_name in presets) {
+    (function (preset_name) {
+      var option = document.createElement('a');
+      option.href = '#';
+      option.textContent = preset_name;
+      option.onclick = function () {
+        chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function (data) {
+          saveToPreset(data, preset_name);
+        });
+      };
+      save_dropdown.appendChild(option);
+    })(preset_name);
+  }
 });
 const createPresetLink = document.createElement('a');
-createPresetLink.textContent ='Create a new preset';
+createPresetLink.textContent = 'Create a new preset';
 createPresetLink.addEventListener('click', createNewPreset);
 save_dropdown.appendChild(createPresetLink);
 
 function createNewPreset() {
-    var presetName = prompt("Enter the name for the new preset:");
-    if (presetName !== null && presetName.trim() !== "") {
-        chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function(data) {
-            savePresetToStorage(presetName, data);
-        });
-    } else {
-        alert("Preset name cannot be empty!");
-    }
+  var presetName = prompt('Enter the name for the new preset:');
+  if (presetName !== null && presetName.trim() !== '') {
+    chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function (data) {
+      savePresetToStorage(presetName, data);
+    });
+  } else {
+    alert('Preset name cannot be empty!');
+  }
 }
 
 function savePresetToStorage(presetName, data) {
-    chrome.storage.sync.get('presets', function(result) {
-        var presets = result.presets || {};
-        presets[presetName] = data;
-        chrome.storage.sync.set({ 'presets': presets}, function() {
-            location.reload;
-        });
+  chrome.storage.sync.get('presets', function (result) {
+    var presets = result.presets || {};
+    presets[presetName] = data;
+    chrome.storage.sync.set({ presets: presets }, function () {
+      location.reload;
     });
+  });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  // Fetch the preset data from chrome.storage.sync
+  chrome.storage.sync.get('presets', function (data) {
+    var presets = data.presets;
+
+    // Assuming you want to display a specific preset, replace 'yourPresetName' with the actual preset name you want to display
+    var presetName = 'soyoon';
+    var displayArea = document.getElementById('presetDisplay');
+
+    // Check if the preset exists
+    if (presets && presets[presetName]) {
+      var presetData = presets[presetName];
+      var content = `<strong>Preset Name:</strong> ${presetName}<br>`;
+
+      // Display specific details of the preset; adjust these lines according to the structure of your preset data
+      if (presetData.prevCharSpacing) {
+        content += `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>`;
+      }
+      if (presetData.prevLineSpacing) {
+        content += `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
+      }
+
+      // Update the display area with the preset details
+      displayArea.innerHTML = content;
+    } else {
+      // Display a message if the specified preset does not exist
+      displayArea.innerHTML = 'The specified preset could not be found.';
+    }
+  });
+});
