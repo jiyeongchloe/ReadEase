@@ -63,20 +63,30 @@ fontDropdownItems.forEach(function (item) {
     // get the selected font from the 'data-font' attribute
     var selectedFont = this.getAttribute('data-font');
     document.getElementById('selectedFont').innerText = selectedFont;
+    chrome.storage.sync.set({ prevFontType: selectedFont });
   });
 });
 
+//font size
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('increase').addEventListener('click', increaseValue);
-  document.getElementById('decrease').addEventListener('click', decreaseValue);
+    const increaseButton = document.getElementById('increase');
+    increaseButton.addEventListener('click', function() {
+        increaseValue();
+    });
+    const decreaseButton = document.getElementById('decrease');
+    decreaseButton.addEventListener('click', function() {
+        decreaseValue();
+    });
+
 });
 
-//font size
 function increaseValue() {
   var value = parseInt(document.getElementById('number').value, 10);
   value = isNaN(value) ? 0 : value;
   value++;
   document.getElementById('number').value = value;
+  var value_string = value.toString();
+  chrome.storage.sync.set({ prevFontSize: value_string });
 }
 
 function decreaseValue() {
@@ -85,6 +95,8 @@ function decreaseValue() {
   value < 1 ? (value = 1) : '';
   value--;
   document.getElementById('number').value = value;
+  var value_string = value.toString();
+  chrome.storage.sync.set({ prevFontSize: value_string });
 }
 
 // log out things
@@ -151,6 +163,27 @@ document.addEventListener('DOMContentLoaded', function () {
   charSpacingSlider.addEventListener('change', function () {
     // store the char spacing pref in chrome.storage
     chrome.storage.sync.set({ prevCharSpacing: charSpacingSlider.value });
+  });
+
+
+  // retrieve font size value from chrome.storage
+  const fontSize = document.getElementById('number');
+  chrome.storage.sync.get('prevFontSize', function (data) {
+    const prevFontSize = data.prevFontSize;
+    // set the font size based on chrome.storage
+    if (prevFontSize !== undefined) {
+      fontSize.value = prevFontSize;
+    }
+  });
+
+  // retrieve font type value from chrome.storage
+  const fontType = document.getElementById('selectedFont');
+  chrome.storage.sync.get('prevFontType', function (data) {
+    const prevFontType = data.prevFontType;
+    // set the font type based on chrome storage
+    if (prevFontType !== undefined) {
+        fontType.innerText = prevFontType;
+    }
   });
 });
 

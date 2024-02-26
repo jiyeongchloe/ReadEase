@@ -28,12 +28,36 @@ const Add_Custom_Style = (font, size, lineSpace, charSpace) => {
         }
     `;
 
+  if (options.fontFamily !== 'Times New Roman' && options.fontFamily !== 'Arial') {
+      addFontStylesheet(options.fontFamily);
+  }
+
   const styleElement = document.createElement('style');
   // add the data-custom attribute
   styleElement.setAttribute('data-custom', 'true');
   // add the <style> element to the document
   document.head.appendChild(styleElement).innerHTML = css;
 };
+
+
+// function to add font stylesheet
+function addFontStylesheet(fontname) {
+  // Create the <link> element
+  const fontLink = document.createElement('link');
+  fontLink.rel = 'stylesheet';
+  if (fontname === 'Tahoma') {
+    fontLink.href = 'https://fonts.googleapis.com/css?family=Tahoma';
+  }
+  if (fontname === 'Helvetica') {
+    fontLink.href = 'https://fonts.googleapis.com/css?family=Helvetia';
+  }
+  if (fontname === 'Open Sans') {
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Open+Sans';
+  }
+
+  // Add the <link> element to the <head> element
+  document.head.appendChild(fontLink);
+}
 
 // Remove custom CSS - function
 const Remove_Custom_Style = () => {
@@ -132,6 +156,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         if (Data.prevCharSpacing) {
           charSpace = Data.prevCharSpacing;
         }
+        if (Data.prevFontSize) {
+          size = Data.prevFontSize;
+        }
+        if (Data.prevFontType) {
+          font = Data.prevFontType;
+        }
         // insert custom style
         Add_Custom_Style(font, size, lineSpace, charSpace);
       } else {
@@ -165,6 +195,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                 if (Data.prevCharSpacing) {
                     charSpace = Data.prevCharSpacing;
                 }
+                if (Data.prevFontSize) {
+                    size = Data.prevFontSize;
+                }
+                if (Data.prevFontType) {
+                    font = Data.prevFontType;
+                }
                 // insert custom style
                 Add_Custom_Style(font, size, lineSpace, charSpace);
             } else {
@@ -189,12 +225,82 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
               if (Data.prevCharSpacing) {
                   charSpace = Data.prevCharSpacing;
               }
+              if (Data.prevFontSize) {
+                size = Data.prevFontSize;
+              }
+              if (Data.prevFontType) {
+                font = Data.prevFontType;
+              }
               // insert custom style
               Add_Custom_Style(font, size, lineSpace, charSpace);
           } else {
               console.log("Failed to retrieve data from chrome.storage.sync (char spacing)");
           }
       });
+    }
+
+    if (message.fontSizeValue !== undefined) {
+        console.log("received font size value:", message.fontSizeValue);
+        // send a message to background.js to request data
+        chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
+            if (response && response.syncData) {
+                console.log("Retrieved data from chrome.storage.sync because font size changed:", response.syncData);
+                const Data = response.syncData;
+                let font = "default";
+                let size = "default";
+                let lineSpace = "default";
+                let charSpace = "default";
+                if (Data.prevLineSpacing) {
+                    lineSpace = Data.prevLineSpacing;
+                }
+                if (Data.prevCharSpacing) {
+                    charSpace = Data.prevCharSpacing;
+                }
+                if (Data.prevFontSize) {
+                    size = Data.prevFontSize;
+                }
+                if (Data.prevFontType) {
+                  font = Data.prevFontType;
+                }
+                // insert custom style
+                Add_Custom_Style(font, size, lineSpace, charSpace);
+            } else {
+                console.log("Failed to retrieve data from chrome.storage sync (font size)");
+            }
+        });
+    }
+    if (message.fontTypeValue !== undefined) {
+      console.log("received font type value:", message.fontTypeValue);
+      // send a message to background.js to request data
+      chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
+          if (response && response.syncData) {
+              console.log("Retrieved data from chrome.storage.sync because font type changed:", response.syncData);
+              const Data = response.syncData;
+              let font = "default";
+              let size = "default";
+              let lineSpace = "default";
+              let charSpace = "default";
+              if (Data.prevLineSpacing) {
+                  lineSpace = Data.prevLineSpacing;
+              }
+              if (Data.prevCharSpacing) {
+                  charSpace = Data.prevCharSpacing;
+              }
+              if (Data.prevFontSize) {
+                  size = Data.prevFontSize;
+              }
+              if (Data.prevFontType) {
+                  font = Data.prevFontType;
+              }
+              // insert custom style
+              Add_Custom_Style(font, size, lineSpace, charSpace);
+          } else {
+              console.log("Failed to retrieve data from chrome.storage sync (font size)");
+          }
+      });
+    }
+    if (message.numConvertToggleState !== undefined) {
+        console.log("received num convert toggle state:", message.numConvertToggleState);
     }
     if (message.cloudToggleState !== undefined) {
         console.log("received cloud toggle state:", message.cloudToggleState);
