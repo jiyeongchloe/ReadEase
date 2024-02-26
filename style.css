@@ -297,12 +297,15 @@ input:checked + .small-slider:before {
 .options-category {
   font-weight: bold;
   margin-right: 50px;
+  margin-bottom: -10px;
 }
 
+.text-size-form{
+    margin-top: -10px;
+}
 .options-group {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
-
 
 /* save dropdown stuff */
 .save-button-container {
@@ -313,10 +316,11 @@ input:checked + .small-slider:before {
 }
 .save-button {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 5px 5px;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 15px;
   cursor: pointer;
 }
 .save-dropdown-content {
