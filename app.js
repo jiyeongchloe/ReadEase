@@ -87,7 +87,7 @@ function blurNumbersOnPage() {
   styleBlur.setAttribute('blurring', 'true');
   const blurCSS = `
           .blur {
-            filter: blur(5px);
+            filter: blur(3px);
             cursor: pointer;
           }
           .blur:hover {
