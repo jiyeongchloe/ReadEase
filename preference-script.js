@@ -96,7 +96,6 @@ document.querySelector('#sign-out').addEventListener('click', function () {
 // Listen for changes to the toggle switches
 document.addEventListener('DOMContentLoaded', function () {
   const toggleButton = document.getElementById('toggleButton');
-  const numConvertToggleButton = document.getElementById('numConvertToggleButton');
   const cloudToggleButton = document.getElementById('cloudToggleButton');
 
   // Retrieve toggle state from chrome.storage.sync
@@ -104,10 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const toggleState = data.toggleState;
     // Set the toggle state based on chrome.storage.sync
     toggleButton.checked = toggleState === 'on';
-  });
-  chrome.storage.sync.get('numConvertToggleState', function (data) {
-    const numConvertToggleState = data.numConvertToggleState;
-    numConvertToggleButton.checked = numConvertToggleState === 'on';
   });
   chrome.storage.sync.get('cloudToggleState', function (data) {
     const cloudToggleState = data.cloudToggleState;
@@ -119,10 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const enable = toggleButton.checked;
     // Store the toggle state in chrome.storage.sync
     chrome.storage.sync.set({ toggleState: enable ? 'on' : 'off' });
-  });
-  numConvertToggleButton.addEventListener('change', function () {
-    const enable = numConvertToggleButton.checked;
-    chrome.storage.sync.set({ numConvertToggleState: enable ? 'on' : 'off' });
   });
   cloudToggleButton.addEventListener('change', function () {
     const enable = cloudToggleButton.checked;
