@@ -300,9 +300,39 @@ input:checked + .small-slider:before {
 
 .options-category {
   font-weight: bold;
-  margin-right: 50px;
+  margin-right: 0px;
+
+}
+.fa-question-circle {
+    margin-right: 35px;
 }
 
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: rgb(202, 223, 126);
+    color: #232121;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 10px;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+  }
+  
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  
 .options-group {
   margin-bottom: 20px;
 }
