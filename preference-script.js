@@ -70,6 +70,7 @@ fontDropdownItems.forEach(function (item) {
   });
 });
 
+//font size
 document.addEventListener('DOMContentLoaded', function () {
     const increaseButton = document.getElementById('increase');
     increaseButton.addEventListener('click', function() {
@@ -81,8 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
-
-//font size
 
 function increaseValue() {
   var value = parseInt(document.getElementById('number').value, 10);
@@ -178,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   // retrieve font size value from chrome.storage
+  const fontSize = document.getElementById('number');
   chrome.storage.sync.get('prevFontSize', function (data) {
     const prevFontSize = data.prevFontSize;
     // set the font size based on chrome.storage
@@ -185,12 +185,4 @@ document.addEventListener('DOMContentLoaded', function () {
       fontSize.value = prevFontSize;
     }
   });
-});
-
-
-
-// font size stuff
-document.addEventListener('DOMContentLoaded', function () {
-
-    
 });
