@@ -170,3 +170,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         return true;
     }
 });
+
+
+// font size stuff
+chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
+    if (changes.prevFontSize) {
+        console.log("font size changed!");
+        const fontSize = changes.prevFontSize.newValue;
+        // send message to app.js with new value
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            console.log("in background.js (font size):", fontSize);
+            chrome.tabs.sendMessage(tabs[0].id, {fontSizeValue: fontSize});
+        });
+    }
+});

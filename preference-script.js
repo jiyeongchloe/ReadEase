@@ -71,16 +71,25 @@ fontDropdownItems.forEach(function (item) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('increase').addEventListener('click', increaseValue);
-  document.getElementById('decrease').addEventListener('click', decreaseValue);
+    const increaseButton = document.getElementById('increase');
+    increaseButton.addEventListener('click', function() {
+        increaseValue();
+    });
+    const decreaseButton = document.getElementById('decrease');
+    decreaseButton.addEventListener('click', function() {
+        decreaseValue();
+    });
+
 });
 
 //font size
+
 function increaseValue() {
   var value = parseInt(document.getElementById('number').value, 10);
   value = isNaN(value) ? 0 : value;
   value++;
   document.getElementById('number').value = value;
+  chrome.storage.sync.set({ prevFontSize: value });
 }
 
 function decreaseValue() {
@@ -89,6 +98,7 @@ function decreaseValue() {
   value < 1 ? (value = 1) : '';
   value--;
   document.getElementById('number').value = value;
+  chrome.storage.sync.set({ prevFontSize: value });
 }
 
 // log out things
@@ -171,11 +181,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // font size stuff
 document.addEventListener('DOMContentLoaded', function () {
+    /*
     const fontSize = document.getElementById('number');
 
     fontSize.addEventListener('change', function () {
         chrome.storage.sync.set({ prevFontSize: fontSize.value });
     });
+    */
 
     chrome.storage.sync.get('prevFontSize', function (data) {
         const prevFontSize = data.prevFontSize;

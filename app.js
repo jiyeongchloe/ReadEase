@@ -142,6 +142,33 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
               console.log("Failed to retrieve data from chrome.storage.sync (char spacing)");
           }
       });
+      if (message.fontSizeValue !== undefined) {
+          console.log("received font size value:", message.fontSizeValue);
+          // send a message to background.js to request data
+          chrome.runtime.sendMessage({ action: "getSyncData" }, function(response) {
+              if (response && response.syncData) {
+                  console.log("Retrieved data from chrome.storage.sync because font size changed:", response.syncData);
+                  const Data = response.syncData;
+                  let font = "default";
+                  let size = "default";
+                  let lineSpace = "default";
+                  let charSpace = "default";
+                  if (Data.prevLineSpacing) {
+                    lineSpace = Data.prevLineSpacing;
+                  }
+                  if (Data.prevCharSpacing) {
+                      charSpace = Data.prevCharSpacing;
+                  }
+                  if (Data.prevFontSize) {
+                      size = Data.prevFontSize;
+                  }
+                  // insert custom style
+                  Add_Custom_Style(font, size, lineSpace, charSpace);
+              } else {
+                  console.log("Failed to retrieve data from chrome.storage sync (font size)");
+              }
+          });
+      }
     }
     if (message.numConvertToggleState !== undefined) {
         console.log("received num convert toggle state:", message.numConvertToggleState);
