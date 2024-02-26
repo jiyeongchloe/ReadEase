@@ -28,12 +28,36 @@ const Add_Custom_Style = (font, size, lineSpace, charSpace) => {
         }
     `;
 
+  if (options.fontFamily !== 'Times New Roman' && options.fontFamily !== 'Arial') {
+      addFontStylesheet(options.fontFamily);
+  }
+
   const styleElement = document.createElement('style');
   // add the data-custom attribute
   styleElement.setAttribute('data-custom', 'true');
   // add the <style> element to the document
   document.head.appendChild(styleElement).innerHTML = css;
 };
+
+
+// function to add font stylesheet
+function addFontStylesheet(fontname) {
+  // Create the <link> element
+  const fontLink = document.createElement('link');
+  fontLink.rel = 'stylesheet';
+  if (fontname === 'Tahoma') {
+    fontLink.href = 'https://fonts.googleapis.com/css?family=Tahoma';
+  }
+  if (fontname === 'Helvetica') {
+    fontLink.href = 'https://fonts.googleapis.com/css?family=Helvetia';
+  }
+  if (fontname === 'Open Sans') {
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Open+Sans';
+  }
+
+  // Add the <link> element to the <head> element
+  document.head.appendChild(fontLink);
+}
 
 // Remove custom CSS - function
 const Remove_Custom_Style = () => {
