@@ -26,10 +26,6 @@ fontSave.addEventListener('click', function () {
 });
 
 
-var numberSave = document.getElementById('numberSave');
-numberSave.addEventListener('click', function () {
-  chrome.runtime.sendMessage({ message: 'saveNumber' }, function () {});
-});
 
 // functions
 function openPref(prefName, tabButton) {
@@ -215,13 +211,19 @@ function saveToPreset(newData, preset_name) {
         if (newData.prevLineSpacing) {
             presets[name].prevLineSpacing = newData.prevLineSpacing;
         }
+        if (newData.numConvertToggleState) {
+          presets[name].numConvertToggleState = newData.numConvertToggleState;
+        }
+        if (newData.cloudToggleState) {
+            presets[name].cloudToggleState = newData.cloudToggleState;
+        }
         chrome.storage.sync.set({'presets': presets}, function() {
         });
         alert("preset updated!");
     });
 }
 
-document.querySelector('.save-button').addEventListener('click', function() {
+document.getElementById('space-save-button').addEventListener('click', function() {
     document.getElementById('save-dropdown').style.display = 'block';
 });
 // close dropdown when clicking outside
@@ -279,4 +281,60 @@ function savePresetToStorage(presetName, data) {
         });
     });
 }
+
+
+// num save button things
+document.getElementById('num-save-button').addEventListener('click', function() {
+  document.getElementById('num-save-dropdown').style.display = 'block';
+});
+// close dropdown when clicking outside
+window.addEventListener('click', function(event) {
+  if (!event.target.matches('.save-button')) {
+      var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
+      for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.style.display === 'block') {
+              openDropdown.style.display = 'none';
+          }
+      }
+  }
+});
+// populate dropdown with preset options
+populateNumSave();
+function populateNumSave() {
+  var save_dropdown = document.getElementById('num-save-dropdown');
+  chrome.storage.sync.get('presets', function(data) {
+    const presets = data.presets;
+    for (var preset_name in presets) {
+        (function(preset_name) {
+            var option = document.createElement('a');
+            option.href = '#';
+            option.textContent = preset_name;
+            option.onclick = function() {
+                chrome.storage.sync.get(['numConvertToggleState', 'cloudToggleState'], function(data) {
+                    saveToPreset(data, preset_name);
+                });
+            };
+            save_dropdown.appendChild(option);
+        })(preset_name);        
+    }
+  });
+  const createPresetLink = document.createElement('a');
+  createPresetLink.textContent ='Create a new preset';
+  createPresetLink.addEventListener('click', createNewNumPreset);
+  save_dropdown.appendChild(createPresetLink);  
+}
+
+function createNewNumPreset() {
+  var presetName = prompt("Enter the name for the new preset:");
+  if (presetName !== null && presetName.trim() !== "") {
+      chrome.storage.sync.get(['numConvertToggleState', 'cloudToggleState'], function(data) {
+          savePresetToStorage(presetName, data);
+      });
+  } else {
+      alert("Preset name cannot be empty!");
+  }
+}
+
+
 
