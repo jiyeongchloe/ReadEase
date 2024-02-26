@@ -54,10 +54,63 @@ function Create_Custom_Element(tag, attr_tag, attr_name, value) {
   document.body.append(custom_element);
 }
 
+// Function to blur numbers within a given element
+function blurNumbers(element) {
+  // Regular expression to match numbers
+  var regex = /\b\d+\b/g;
+  
+  // Replace numbers with spans containing blur class
+  element.innerHTML = element.innerHTML.replace(regex, function(match) {
+      return "<span class='blur'>" + match + "</span>";
+  });
+}
+// Function to traverse through DOM and blur numbers
+function blurNumbersOnPage() {
+  console.log(" ");
+  console.log("blurNumbersOnPage was called...");
+  
+  const styleBlur = document.createElement('style');
+  // add the data-custom attribute
+  styleBlur.setAttribute('data-custom', 'true');
+  const blurCSS = `
+          .blur {
+            filter: blur(5px);
+            cursor: pointer;
+          }
+          .blur:hover {
+            filter: none;
+          }
+      `;
+  // add the <style> element to the document
+  document.head.appendChild(styleBlur).innerHTML = blurCSS;
+
+  // Get all elements within the content area
+  var elements = document.querySelectorAll('*'); // You might need to adjust the selector
+  // Loop through each element
+  elements.forEach(function(element) {
+      blurNumbers(element);
+  });
+}
+
+document.querySelectorAll('.blur').forEach((elem) => {
+  elem.addEventListener('mouseover', function () {
+    this.classList.add('hover');
+  });
+  elem.addEventListener('mouseout', function () {
+    this.classList.remove('hover');
+  });
+});
+
+
 // listen for messages from the background script
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log('received by app.js:', message);
   if (message.message === 'on') {
+    // number blur thing
+    // Call the function when the page loads
+    blurNumbersOnPage();
+
+
     console.log('turning on color!');
     // this is where we insert custom style
     // send a message to background.js to request data from chrome.storage.sync
@@ -150,3 +203,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         console.log("received cloud toggle state:", message.cloudToggleState);
     }
 });
+
+
+
