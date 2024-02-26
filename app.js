@@ -61,14 +61,19 @@ function blurNumbers(element) {
   
   // Replace numbers with spans containing blur class
   element.innerHTML = element.innerHTML.replace(regex, function(match) {
-      return "<span class='blur'>" + match + "</span>";
+      var digits = match.split('');
+      var spannedDigits = digits.map(function (digit) {
+          return "<span class='blur'>" + digit + "</span>";
+      }); 
+      return spannedDigits.join('');
   });
 }
+
 // Function to traverse through DOM and blur numbers
 function blurNumbersOnPage() {
   console.log(" ");
   console.log("blurNumbersOnPage was called...");
-  
+
   const styleBlur = document.createElement('style');
   // add the data-custom attribute
   styleBlur.setAttribute('data-custom', 'true');
