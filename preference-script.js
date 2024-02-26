@@ -25,10 +25,6 @@ fontSave.addEventListener('click', function () {
   chrome.runtime.sendMessage({ message: 'saveFont' }, function () {});
 });
 
-var spacingSave = document.getElementById('spacingSave');
-spacingSave.addEventListener('click', function () {
-  chrome.runtime.sendMessage({ message: 'saveSpacing' }, function () {});
-});
 
 var numberSave = document.getElementById('numberSave');
 numberSave.addEventListener('click', function () {
@@ -166,3 +162,88 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.storage.sync.set({ prevCharSpacing: charSpacingSlider.value });
   });
 });
+
+
+
+// spacing save button things
+function saveToPreset(newData, preset_name) {
+    chrome.storage.sync.get('presets', function(data) {
+        var name = preset_name;
+        var presets = data.presets;
+
+        // sending to background.js for debugging
+        chrome.runtime.sendMessage({ debugging: presets[name] }, function () {
+        });
+        chrome.runtime.sendMessage({ debug: newData }, function () {});
+        chrome.runtime.sendMessage({ name: name }, function() {});
+        if (newData.prevCharSpacing) {
+            presets[name].prevCharSpacing = newData.prevCharSpacing;
+        }
+        if (newData.prevLineSpacing) {
+            presets[name].prevLineSpacing = newData.prevLineSpacing;
+        }
+        chrome.storage.sync.set({'presets': presets}, function() {
+        });
+        alert("preset updated!");
+    });
+}
+
+document.querySelector('.save-button').addEventListener('click', function() {
+    document.getElementById('save-dropdown').style.display = 'block';
+});
+// close dropdown when clicking outside
+window.addEventListener('click', function(event) {
+    if (!event.target.matches('.save-button')) {
+        var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.style.display === 'block') {
+                openDropdown.style.display = 'none';
+            }
+        }
+    }
+});
+// populate dropdown with preset options
+var save_dropdown = document.getElementById('save-dropdown');
+chrome.storage.sync.get('presets', function(data) {
+    const presets = data.presets;
+    for (var preset_name in presets) {
+        (function(preset_name) {
+            var option = document.createElement('a');
+            option.href = '#';
+            option.textContent = preset_name;
+            option.onclick = function() {
+                chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function(data) {
+                    saveToPreset(data, preset_name);
+                });
+            };
+            save_dropdown.appendChild(option);
+        })(preset_name);        
+    }
+});
+const createPresetLink = document.createElement('a');
+createPresetLink.textContent ='Create a new preset';
+createPresetLink.addEventListener('click', createNewPreset);
+save_dropdown.appendChild(createPresetLink);
+
+function createNewPreset() {
+    var presetName = prompt("Enter the name for the new preset:");
+    if (presetName !== null && presetName.trim() !== "") {
+        chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function(data) {
+            savePresetToStorage(presetName, data);
+        });
+    } else {
+        alert("Preset name cannot be empty!");
+    }
+}
+
+function savePresetToStorage(presetName, data) {
+    chrome.storage.sync.get('presets', function(result) {
+        var presets = result.presets || {};
+        presets[presetName] = data;
+        chrome.storage.sync.set({ 'presets': presets}, function() {
+            location.reload;
+        });
+    });
+}
+

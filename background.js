@@ -76,10 +76,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.log("Font preferences saved!");
         sendResponse('success');
     }
-    if (request.message === 'saveSpacing') {
-        console.log("Spacing preferences saved!");
-        sendResponse('success');
-    }
     if (request.message === 'saveNumber') {
         console.log("Number preferences saved!");
         sendResponse('success');
@@ -168,5 +164,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             sendResponse({ syncData: data });
         });
         return true;
+    }
+});
+
+
+// for debugging preset saves
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.debugging) {
+        console.log("for debugging:", request.debugging);
+    }
+    if (request.debug) {
+        console.log("this is the data that's coming in:", request.debug);
+    }
+    if (request.name) {
+        console.log("name: ", request.name);
+    }
+    if (request.check) {
+        console.log("check:", request.check);
     }
 });
