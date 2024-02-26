@@ -1,85 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="style.css" />
-    </head>
+  <head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-    <!-- Tab links -->
-    <div class="tab">
-        <button id="fontTab" class="tablinks">Font</button>
-        <button id="spacingTab" class="tablinks">Spacing</button>
-        <button id="numbersTab" class="tablinks">Numbers</button>
-        <button id="profileTab" class="tablinks">My Profile</button>
-    </div>
-  
-    <!-- Tab content -->
-    <div id="Font" class="tabcontent">
-        <h3>Font</h3>
-        <p>This is where font preference settings go.</p>
-        <button id="fontSave">Save</button>
-    </div>
-  
-    <div id="Spacing" class="tabcontent">
-        <h3>Spacing</h3>
-        <div class="options-container">
-            <div class="options-group">
-                <span class="options-category">Line Spacing</span>
-                <input type="range" min="1" max="10" value="5" class="spacing-slider" id="line-spacing-slider">
-            </div>
-            <div class="options-group">
-                <span class="options-category">Character Spacing</span>
-                <input type="range" min="1" max="10" value="5" class="spacing-slider" id="character-spacing-slider">
-            </div>
+  <!-- Tab links -->
+  <div class="tab">
+    <button id="fontTab" class="tablinks">Font</button>
+    <button id="spacingTab" class="tablinks">Spacing</button>
+    <button id="numbersTab" class="tablinks">Numbers</button>
+    <button id="profileTab" class="tablinks">My Profile</button>
+  </div>
+
+  <!-- Tab content -->
+  <div id="Font" class="tabcontent">
+    <h3>Font</h3>
+    <div class="options-container">
+      <div class="options-group">
+        <span class="options-category">Font Type</span>
+        <div class="dropdown">
+          <button class="dropbtn" id="selectedFont">Select Font</button>
+          <div class="dropdown-content">
+            <a href="#" data-font="Times New Roman">Times New Roman</a>
+            <a href="#" data-font="Calibri">Calibri</a>
+            <a href="#" data-font="Comic Sans">Comic Sans</a>
+          </div>
         </div>
-        <div class="save-button-container">
-            <button class="save-button">Save to Preset</div>
+      </div>
+      <div class="options-group"></div>
+      <span class="options-category">Font Size</span>
+      <form>
+        <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">
+          -
+        </div>
+        <input type="number" id="number" value="0" />
+        <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">
+          +
+        </div>
+      </form>
+    </div>
+    <button id="fontSave">Save</button>
+  </div>
+
+  <div id="Spacing" class="tabcontent">
+    <h3>Spacing</h3>
+    <div class="options-container">
+      <div class="options-group">
+        <span class="options-category">Line Spacing</span>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value="5"
+          class="spacing-slider"
+          id="line-spacing-slider"
+        />
+      </div>
+      <div class="options-group">
+        <span class="options-category">Character Spacing</span>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value="5"
+          class="spacing-slider"
+          id="character-spacing-slider"
+        />
+      </div>
+    </div>
+    <div class="save-button-container">
+        <button class="save-button">Save to Preset</div>
             <div class="save-dropdown-content" id="save-dropdown">
                 <!-- preset options to be dynamically added here -->
             </div>
         </div>
     </div>
-  
-    <div id="Numbers" class="tabcontent">
-        <h3>Numbers</h3>
-        <div class="options-container">
-            <div class="options-group">
-                <!-- convert numbers to letters toggle -->
-                <span class="options-category">Convert Numbers to Letters</span>
-                <label class="small-toggle">
-                    <input type="checkbox" id="numConvertToggleButton">
-                    <span class="small-slider"></span>
-                </label>
-            </div>
-            <div class="options-group">
-                <!-- cloud over mouse toggle -->
-                <span class="options-category">Cloud over Mouse</span>
-                <label class="small-toggle">
-                    <input type="checkbox" id="cloudToggleButton">
-                    <span class="small-slider"></span>
-                </label>
-            </div>
-        </div>
-        <button id="numberSave">Save</button>
-    </div>
+  </div>
 
-    <div id="Profile" class="tabcontent">
-        <h3>My Profile</h3>
-        <a href="login-popup.html"><button id="sign-out">Sign Out</button></a>
-    </div>
-
-
-    <body>
-        <div class="center">
-            <p>Click on any of the tabs above to change your manipulation settings</p>
-        </div>
-        <label class="toggle">
-            <input type="checkbox" id="toggleButton">
-            <span class="slider"></span>
+  <div id="Numbers" class="tabcontent">
+    <h3>Numbers</h3>
+    <div class="options-container">
+      <div class="options-group">
+        <!-- convert numbers to letters toggle -->
+        <span class="options-category">Convert Numbers to Letters</span>
+        <label class="small-toggle">
+          <input type="checkbox" id="numConvertToggleButton" />
+          <span class="small-slider"></span>
         </label>
-    </body>
+      </div>
+      <div class="options-group">
+        <!-- cloud over mouse toggle -->
+        <span class="options-category">Cloud over Mouse</span>
+        <label class="small-toggle">
+          <input type="checkbox" id="cloudToggleButton" />
+          <span class="small-slider"></span>
+        </label>
+      </div>
+    </div>
+    <button id="numberSave">Save</button>
+  </div>
 
-    
-    <script src="preference-script.js"></script>
+  <div id="Profile" class="tabcontent">
+    <h3>My Profile</h3>
+    <a href="login-popup.html"><button id="sign-out">Sign Out</button></a>
+  </div>
 
-    
+  <body>
+    <div class="center">
+      <p>Click on any of the tabs above to change your manipulation settings</p>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" id="toggleButton" />
+      <span class="slider"></span>
+    </label>
+  </body>
+
+  <script src="preference-script.js"></script>
 </html>
