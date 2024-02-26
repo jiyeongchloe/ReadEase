@@ -70,16 +70,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             });
         });
     }
-
-    // save button stuff
-    if (request.message === 'saveFont') {
-        console.log("Font preferences saved!");
-        sendResponse('success');
-    }
-    if (request.message === 'saveNumber') {
-        console.log("Number preferences saved!");
-        sendResponse('success');
-    }
 });
 
 
