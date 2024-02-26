@@ -144,11 +144,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   }
 });
 
-// I think what we should do is:
-// 1. scrape off the user's preference
-// 2. put the user's preference into Add_Custom_Style
-// 3. need to import url for all the different language
-// 4. need to figure out how to let any website work
+
 
 // listen for messages form the background script
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -199,9 +195,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
               console.log("Failed to retrieve data from chrome.storage.sync (char spacing)");
           }
       });
-    }
-    if (message.numConvertToggleState !== undefined) {
-        console.log("received num convert toggle state:", message.numConvertToggleState);
     }
     if (message.cloudToggleState !== undefined) {
         console.log("received cloud toggle state:", message.cloudToggleState);
