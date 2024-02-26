@@ -112,6 +112,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                 if (Data.prevCharSpacing) {
                     charSpace = Data.prevCharSpacing;
                 }
+                if (Data.prevFontSize) {
+                    size = Data.prevFontSize;
+                }
                 // insert custom style
                 Add_Custom_Style(font, size, lineSpace, charSpace);
             } else {

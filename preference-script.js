@@ -175,24 +175,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // store the char spacing pref in chrome.storage
     chrome.storage.sync.set({ prevCharSpacing: charSpacingSlider.value });
   });
+
+
+  // retrieve font size value from chrome.storage
+  chrome.storage.sync.get('prevFontSize', function (data) {
+    const prevFontSize = data.prevFontSize;
+    // set the font size based on chrome.storage
+    if (prevFontSize !== undefined) {
+      fontSize.value = prevFontSize;
+    }
+  });
 });
 
 
 
 // font size stuff
 document.addEventListener('DOMContentLoaded', function () {
-    /*
-    const fontSize = document.getElementById('number');
 
-    fontSize.addEventListener('change', function () {
-        chrome.storage.sync.set({ prevFontSize: fontSize.value });
-    });
-    */
-
-    chrome.storage.sync.get('prevFontSize', function (data) {
-        const prevFontSize = data.prevFontSize;
-        if (prevFontSize !== undefined) {
-            fontSize.value = prevFontSize;
-        }
-    });
+    
 });
