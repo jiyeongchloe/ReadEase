@@ -242,33 +242,169 @@ function savePresetToStorage(presetName, data) {
   });
 }
 
+// document.addEventListener('DOMContentLoaded', function () {
+//   // Fetch the preset data from chrome.storage.sync
+//   chrome.storage.sync.get('presets', function (data) {
+//     const presets = data.presets;
+//     for (var one_preset in presets) {
+//       (function (one_preset) {
+//         alert(one_preset);
+//         var presetName = one_preset;
+//         var displayArea = document.getElementByID('presetDisplay');
+
+//         // Check if the preset exists
+//         if (presets && presets[presetName]) {
+//           //   var presetData = presets[presetName];
+//           //   const presetContainer = document.createElement('div');
+//           //   const nameElement = document.createElement('p');
+//           //   nameElement.innerHTML = `<strong>Preset Name:</strong> ${presetName}<br>`;
+//           //   presetContainer.appendChild(nameElement);
+
+//           //   displayArea.appendChild(presetContainer);
+
+//           var presetData = presets[presetName];
+//           var content = `<strong>Preset Name:</strong> ${presetName}<br>`;
+
+//           // Display specific details of the preset; adjust these lines according to the structure of your preset data
+//           if (presetData.prevCharSpacing) {
+//             content += `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>`;
+//           }
+//           if (presetData.prevLineSpacing) {
+//             content += `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
+//           }
+
+//           // Update the display area with the preset details
+//           displayArea.innerHTML = content;
+
+//           // Display specific details of the preset; adjust these lines according to the structure of your preset data
+//           /*
+//                 if (presetData.prevCharSpacing) {
+//                     content += `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>`;
+//                 }
+//                 if (presetData.prevLineSpacing) {
+//                     content += `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
+//                 }
+//                 */
+
+//           // Update the display area with the preset details
+//           // displayArea.innerHTML = content;
+//         } else {
+//           // Display a message if the specified preset does not exist
+//           displayArea.innerHTML = 'The specified preset could not be found.';
+//         }
+//       })(one_preset);
+//     }
+//     // Assuming you want to display a specific preset, replace 'yourPresetName' with the actual preset name you want to display
+//   });
+// });
+
+// trial 2
+// document.addEventListener('DOMContentLoaded', function () {
+//   // Fetch the preset data from chrome.storage.sync
+//   chrome.storage.sync.get('presets', function (data) {
+//     const presets = data.presets;
+//     var displayArea = document.getElementById('presetDisplay'); // Move outside the loop
+//     displayArea.innerHTML = ''; // Initialize as empty to clear previous content if needed
+
+//     for (var one_preset in presets) {
+//       // You can remove the alert or comment it out if it's no longer needed
+//       alert(one_preset);
+//       var presetName = one_preset;
+
+//       // Check if the preset exists
+//       if (presets && presets[presetName]) {
+//         var presetData = presets[presetName];
+//         var content = `<strong>Preset Name:</strong> ${presetName}<br>`;
+
+//         // Display specific details of the preset; adjust these lines according to the structure of your preset data
+//         if (presetData.prevCharSpacing) {
+//           content += `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>`;
+//         }
+//         if (presetData.prevLineSpacing) {
+//           content += `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
+//         }
+
+//         // Append the new content to the display area without overwriting the previous content
+//         displayArea.innerHTML += content + '<br>'; // Added '<br>' for space between presets
+//       } else {
+//         // If you want to display a message when a preset cannot be found, it should be handled differently
+//         // For example, you might not want to overwrite the entire display area for one missing preset
+//         alert('The specified preset could not be found: ' + presetName);
+//       }
+//     }
+//   });
+// });
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   chrome.storage.sync.get('presets', function (data) {
+//     const presets = data.presets;
+//     const displayArea = document.getElementById('presetDisplay'); // Reference to the container
+
+//     // Clear previous content
+//     displayArea.innerHTML = '';
+
+//     Object.keys(presets).forEach((presetName) => {
+//       const presetData = presets[presetName];
+//       if (presetData) {
+//         // Create a container for each preset
+//         const presetContainer = document.createElement('div');
+//         presetContainer.classList.add('preset-container'); // Optional: For styling
+
+//         // Preset Name
+//         const nameElement = document.createElement('p');
+//         nameElement.innerHTML = `<strong>Preset Name:</strong> ${presetName}`;
+//         presetContainer.appendChild(nameElement);
+
+//         // Character Spacing
+//         if (presetData.prevCharSpacing !== undefined) {
+//           const charSpacingElement = document.createElement('p');
+//           charSpacingElement.innerHTML = `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}`;
+//           presetContainer.appendChild(charSpacingElement);
+//         }
+
+//         // Line Spacing
+//         if (presetData.prevLineSpacing !== undefined) {
+//           const lineSpacingElement = document.createElement('p');
+//           lineSpacingElement.innerHTML = `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}`;
+//           presetContainer.appendChild(lineSpacingElement);
+//         }
+
+//         // Append the preset container to the display area
+//         displayArea.appendChild(presetContainer);
+//       }
+//     });
+//   });
+// });
+
 document.addEventListener('DOMContentLoaded', function () {
   // Fetch the preset data from chrome.storage.sync
   chrome.storage.sync.get('presets', function (data) {
     var presets = data.presets;
-
-    // Assuming you want to display a specific preset, replace 'yourPresetName' with the actual preset name you want to display
-    var presetName = 'soyoon';
     var displayArea = document.getElementById('presetDisplay');
+    displayArea.innerHTML = ''; // Clear previous content
 
-    // Check if the preset exists
-    if (presets && presets[presetName]) {
-      var presetData = presets[presetName];
-      var content = `<strong>Preset Name:</strong> ${presetName}<br>`;
+    // Check if there are any presets
+    if (presets) {
+      Object.keys(presets).forEach(function (presetName) {
+        var presetData = presets[presetName];
+        var content = `<div class="preset-details"><strong>Preset Name:</strong> ${presetName}<br>`;
 
-      // Display specific details of the preset; adjust these lines according to the structure of your preset data
-      if (presetData.prevCharSpacing) {
-        content += `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>`;
-      }
-      if (presetData.prevLineSpacing) {
-        content += `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
-      }
+        // Display specific details of the preset
+        if (presetData.prevCharSpacing) {
+          content += `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>`;
+        }
+        if (presetData.prevLineSpacing) {
+          content += `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
+        }
 
-      // Update the display area with the preset details
-      displayArea.innerHTML = content;
+        content += '</div>';
+
+        // Append the new content to the display area without overwriting the previous content
+        displayArea.innerHTML += content;
+      });
     } else {
-      // Display a message if the specified preset does not exist
-      displayArea.innerHTML = 'The specified preset could not be found.';
+      // Display a message if no presets exist
+      displayArea.innerHTML = 'No presets found.';
     }
   });
 });
