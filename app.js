@@ -70,6 +70,16 @@ const Remove_Custom_Style = () => {
   });
 };
 
+const Remove_Custom_Blur = () => {
+  console.log('Removing custom blurs...');
+  const customStyles = document.querySelectorAll('style[blurring]');
+  console.log('found custom styles:', customStyles.length);
+  customStyles.forEach((style) => {
+    console.log('Removing style:', style);
+    style.remove();
+  });
+};
+
 // Create Custom Element - Function
 function Create_Custom_Element(tag, attr_tag, attr_name, value) {
   const custom_element = document.createElement(tag);
@@ -95,15 +105,13 @@ function blurNumbers(element) {
 
 // Function to traverse through DOM and blur numbers
 function blurNumbersOnPage() {
-  console.log(" ");
-  console.log("blurNumbersOnPage was called...");
-
   const styleBlur = document.createElement('style');
   // add the data-custom attribute
   styleBlur.setAttribute('data-custom', 'true');
+  styleBlur.setAttribute('blurring', 'true');
   const blurCSS = `
           .blur {
-            filter: blur(5px);
+            filter: blur(3px);
             cursor: pointer;
           }
           .blur:hover {
@@ -121,25 +129,13 @@ function blurNumbersOnPage() {
   });
 }
 
-document.querySelectorAll('.blur').forEach((elem) => {
-  elem.addEventListener('mouseover', function () {
-    this.classList.add('hover');
-  });
-  elem.addEventListener('mouseout', function () {
-    this.classList.remove('hover');
-  });
-});
+
 
 
 // listen for messages from the background script
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log('received by app.js:', message);
   if (message.message === 'on') {
-    // number blur thing
-    // Call the function when the page loads
-    blurNumbersOnPage();
-
-
     console.log('turning on color!');
     // this is where we insert custom style
     // send a message to background.js to request data from chrome.storage.sync
@@ -147,6 +143,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       if (response && response.syncData) {
         console.log('Retrieved data from chrome.storage.sync:', response.syncData);
         const Data = response.syncData;
+        if (Data.cloudToggleState === 'on') {
+            blurNumbersOnPage();
+        }
         let font = 'default';
         let size = 'default';
         let lineSpace = 'default';
@@ -175,11 +174,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   }
 });
 
-// I think what we should do is:
-// 1. scrape off the user's preference
-// 2. put the user's preference into Add_Custom_Style
-// 3. need to import url for all the different language
-// 4. need to figure out how to let any website work
+
 
 // listen for messages form the background script
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
@@ -243,6 +238,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
           }
       });
     }
+
     if (message.fontSizeValue !== undefined) {
         console.log("received font size value:", message.fontSizeValue);
         // send a message to background.js to request data
@@ -308,8 +304,21 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     }
     if (message.cloudToggleState !== undefined) {
         console.log("received cloud toggle state:", message.cloudToggleState);
+        if (message.cloudToggleState === 'on') {
+            blurNumbersOnPage();
+        } else {
+            Remove_Custom_Blur();
+        }
     }
 });
 
+document.querySelectorAll('.blur').forEach((elem) => {
+  elem.addEventListener('mouseover', function () {
+    this.classList.add('hover');
+  });
+  elem.addEventListener('mouseout', function () {
+    this.classList.remove('hover');
+  });
+});
 
 
