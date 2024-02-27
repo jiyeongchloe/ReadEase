@@ -333,7 +333,6 @@ input:checked + .small-slider:before {
   margin-bottom: 20px;
 }
 
-
 /* save dropdown stuff */
 .save-button-container {
   display: inline-block;
@@ -371,3 +370,15 @@ input:checked + .small-slider:before {
 .save-dropdown-content a:hover {
   background-color: #6ca0f5;
 }
+
+.delete-button {
+    background-color: #9abaf1; /* Red background color */
+    color: black; /* White text color */
+    border: none; /* No border */
+    padding: 8px 10px; /* Padding */
+    margin-top: 5px; /* Margin on the top */
+    margin-bottom: 10px;
+    font-size: 11px;
+    cursor: pointer; /* Cursor pointer */
+    border-radius: 3px; /* Rounded corners */
+  }

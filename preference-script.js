@@ -243,29 +243,45 @@ function savePresetToStorage(presetName, data) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Fetch the preset data from chrome.storage.sync
-  chrome.storage.sync.get('presets', function (data) {
-    var presets = data.presets;
-    var presetNameList = Object.keys(presets);
-    var displayArea = document.getElementById('presetDisplay');
-    var content = ''; // Initialize content variable outside the loop
-    var presetFound = false; // Flag to check if at least one preset is found
+  function fetchAndDisplayPresets() {
+    chrome.storage.sync.get('presets', function (data) {
+      var presets = data.presets;
+      var presetNameList = Object.keys(presets);
+      var displayArea = document.getElementById('presetDisplay');
+      displayArea.innerHTML = ''; // Clear previous content
 
-    // Check if the preset exists
-    for (var presetName of presetNameList) {
-      if (presets && presets[presetName]) {
-        presetFound = true; // Set flag to true if preset is found
-        var presetData = presets[presetName];
-        content += `<strong>Preset Name:</strong> ${presetName}<br>`; // Append to content variable
-        content += `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>`;
-        content += `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br><br>`; // Add a break for spacing between presets
+      // Check and display each preset
+      presetNameList.forEach(function (presetName) {
+        if (presets[presetName]) {
+          var presetData = presets[presetName];
+          var presetDiv = document.createElement('div'); // Create a new div for each preset
+          var content =
+            `<strong>Preset Name:</strong> ${presetName}<br>` +
+            `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>` +
+            `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
+          presetDiv.innerHTML = content;
+
+          var deleteButton = document.createElement('button'); // Create a delete button
+          deleteButton.className = 'delete-button';
+          deleteButton.textContent = 'Delete';
+          deleteButton.onclick = function () {
+            delete presets[presetName]; // Remove the preset from the object
+            chrome.storage.sync.set({ presets: presets }, function () {
+              // Update chrome.storage.sync
+              fetchAndDisplayPresets(); // Refresh the display
+            });
+          };
+
+          presetDiv.appendChild(deleteButton); // Add the delete button to the div
+          displayArea.appendChild(presetDiv); // Add the div to the display area
+        }
+      });
+
+      if (presetNameList.length === 0) {
+        displayArea.innerHTML = 'No presets found.'; // Display message if no presets
       }
-    }
+    });
+  }
 
-    if (!presetFound) {
-      content = 'The specified preset could not be found.'; // Set content if no presets are found
-    }
-
-    displayArea.innerHTML = content;
-  });
+  fetchAndDisplayPresets(); // Call the function to fetch and display presets
 });
