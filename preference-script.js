@@ -262,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function () {
           presetDiv.innerHTML = content;
 
           var deleteButton = document.createElement('button'); // Create a delete button
-          deleteButton.className = 'delete-button';
           deleteButton.textContent = 'Delete';
           deleteButton.onclick = function () {
             delete presets[presetName]; // Remove the preset from the object
@@ -272,7 +271,20 @@ document.addEventListener('DOMContentLoaded', function () {
             });
           };
 
+          var applyButton = document.createElement('button'); // Create an apply button
+          applyButton.textContent = 'Apply';
+          applyButton.onclick = function () {
+            // Implement the logic to apply the preset settings
+            console.log('Applying preset:', presetName);
+            // You might want to call a function here that applies the preset's settings
+          };
+
+          // Style the apply button similarly to how you style the delete button
+          applyButton.className = 'apply-button'; // Assuming you have defined .apply-button styles in your CSS
+          deleteButton.className = 'delete-button';
+
           presetDiv.appendChild(deleteButton); // Add the delete button to the div
+          presetDiv.appendChild(applyButton); // Add the apply button to the div
           displayArea.appendChild(presetDiv); // Add the div to the display area
         }
       });

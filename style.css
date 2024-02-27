@@ -372,10 +372,23 @@ input:checked + .small-slider:before {
 }
 
 .delete-button {
+    background-color: #e16a84; /* Red background color */
+    color: black; /* White text color */
+    border: none; /* No border */
+    padding: 5px 8px; /* Padding */
+    margin-top: 5px; /* Margin on the top */
+    margin-bottom: 10px;
+    font-size: 11px;
+    cursor: pointer; /* Cursor pointer */
+    border-radius: 3px; /* Rounded corners */
+    margin-right: 5px;
+  }
+
+.apply-button {
     background-color: #9abaf1; /* Red background color */
     color: black; /* White text color */
     border: none; /* No border */
-    padding: 8px 10px; /* Padding */
+    padding: 5px 8px; /* Padding */
     margin-top: 5px; /* Margin on the top */
     margin-bottom: 10px;
     font-size: 11px;
