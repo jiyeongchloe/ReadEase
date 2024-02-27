@@ -192,11 +192,14 @@ function saveToPreset(newData, preset_name) {
        if (newData.prevLineSpacing) {
            presets[name].prevLineSpacing = newData.prevLineSpacing;
        }
-       if (newData.numConvertToggleState) {
-         presets[name].numConvertToggleState = newData.numConvertToggleState;
-       }
        if (newData.cloudToggleState) {
            presets[name].cloudToggleState = newData.cloudToggleState;
+       }
+       if (newData.prevFontType) {
+          presets[name].prevFontType = newData.prevFontType;
+       }
+       if (newData.prevFontSize) {
+          presets[name].prevFontSize = newData.prevFontSize;
        }
        chrome.storage.sync.set({'presets': presets}, function() {
        });
@@ -412,6 +415,7 @@ function populateTextSave() {
             option.textContent = preset_name;
             option.onclick = function() {
                 chrome.storage.sync.get(['prevFontSize', 'prevFontType'], function(data) {
+                    alert(data.prevFontType);
                     saveToPreset(data, preset_name);
                 });
             };
