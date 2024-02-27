@@ -20,8 +20,6 @@ profileTab.addEventListener('click', function () {
 });
 
 
-
-
 // functions
 function openPref(prefName, tabButton) {
   // Declare all variables
@@ -178,84 +176,82 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
-
 // spacing save button things
 function saveToPreset(newData, preset_name) {
-    chrome.storage.sync.get('presets', function(data) {
-        var name = preset_name;
-        var presets = data.presets;
-
-        // sending to background.js for debugging
-        chrome.runtime.sendMessage({ debugging: presets[name] }, function () {
-        });
-        chrome.runtime.sendMessage({ debug: newData }, function () {});
-        chrome.runtime.sendMessage({ name: name }, function() {});
-        if (newData.prevCharSpacing) {
-            presets[name].prevCharSpacing = newData.prevCharSpacing;
-        }
-        if (newData.prevLineSpacing) {
-            presets[name].prevLineSpacing = newData.prevLineSpacing;
-        }
-        if (newData.numConvertToggleState) {
-          presets[name].numConvertToggleState = newData.numConvertToggleState;
-        }
-        if (newData.cloudToggleState) {
-            presets[name].cloudToggleState = newData.cloudToggleState;
-        }
-        chrome.storage.sync.set({'presets': presets}, function() {
-        });
-        alert("preset updated!");
-    });
+  chrome.storage.sync.get('presets', function (data) {
+    var name = preset_name;
+    var presets = data.presets;
+       // sending to background.js for debugging
+       chrome.runtime.sendMessage({ debugging: presets[name] }, function () {
+       });
+       chrome.runtime.sendMessage({ debug: newData }, function () {});
+       chrome.runtime.sendMessage({ name: name }, function() {});
+       if (newData.prevCharSpacing) {
+           presets[name].prevCharSpacing = newData.prevCharSpacing;
+       }
+       if (newData.prevLineSpacing) {
+           presets[name].prevLineSpacing = newData.prevLineSpacing;
+       }
+       if (newData.numConvertToggleState) {
+         presets[name].numConvertToggleState = newData.numConvertToggleState;
+       }
+       if (newData.cloudToggleState) {
+           presets[name].cloudToggleState = newData.cloudToggleState;
+       }
+       chrome.storage.sync.set({'presets': presets}, function() {
+       });
+       alert("preset updated!");
+   });
 }
 
 document.getElementById('space-save-button').addEventListener('click', function() {
     document.getElementById('save-dropdown').style.display = 'block';
 });
+
 // close dropdown when clicking outside
-window.addEventListener('click', function(event) {
-    if (!event.target.matches('.save-button')) {
-        var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
-        for (var i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.style.display === 'block') {
-                openDropdown.style.display = 'none';
-            }
-        }
+window.addEventListener('click', function (event) {
+  if (!event.target.matches('.save-button')) {
+    var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.style.display === 'block') {
+        openDropdown.style.display = 'none';
+      }
     }
+  }
 });
 // populate dropdown with preset options
 var save_dropdown = document.getElementById('save-dropdown');
-chrome.storage.sync.get('presets', function(data) {
-    const presets = data.presets;
-    for (var preset_name in presets) {
-        (function(preset_name) {
-            var option = document.createElement('a');
-            option.href = '#';
-            option.textContent = preset_name;
-            option.onclick = function() {
-                chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function(data) {
-                    saveToPreset(data, preset_name);
-                });
-            };
-            save_dropdown.appendChild(option);
-        })(preset_name);        
-    }
+chrome.storage.sync.get('presets', function (data) {
+  const presets = data.presets;
+  for (var preset_name in presets) {
+    (function (preset_name) {
+      var option = document.createElement('a');
+      option.href = '#';
+      option.textContent = preset_name;
+      option.onclick = function () {
+        chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function (data) {
+          saveToPreset(data, preset_name);
+        });
+      };
+      save_dropdown.appendChild(option);
+    })(preset_name);
+  }
 });
 const createPresetLink = document.createElement('a');
-createPresetLink.textContent ='Create a new preset';
+createPresetLink.textContent = 'Create a new preset';
 createPresetLink.addEventListener('click', createNewPreset);
 save_dropdown.appendChild(createPresetLink);
 
 function createNewPreset() {
-    var presetName = prompt("Enter the name for the new preset:");
-    if (presetName !== null && presetName.trim() !== "") {
-        chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function(data) {
-            savePresetToStorage(presetName, data);
-        });
-    } else {
-        alert("Preset name cannot be empty!");
-    }
+  var presetName = prompt('Enter the name for the new preset:');
+  if (presetName !== null && presetName.trim() !== '') {
+    chrome.storage.sync.get(['prevLineSpacing', 'prevCharSpacing'], function (data) {
+      savePresetToStorage(presetName, data);
+    });
+  } else {
+    alert('Preset name cannot be empty!');
+  }
 }
 
 function savePresetToStorage(presetName, data) {
@@ -268,6 +264,66 @@ function savePresetToStorage(presetName, data) {
         });
     });
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  function fetchAndDisplayPresets() {
+    chrome.storage.sync.get('presets', function (data) {
+      var presets = data.presets;
+      var presetNameList = Object.keys(presets);
+      var displayArea = document.getElementById('presetDisplay');
+      displayArea.innerHTML = ''; // Clear previous content
+
+      // Check and display each preset
+      presetNameList.forEach(function (presetName) {
+        if (presets[presetName]) {
+          var presetData = presets[presetName];
+          var presetDiv = document.createElement('div'); // Create a new div for each preset
+          var content =
+            `<strong>Preset Name:</strong> ${presetName}<br>` +
+            `<strong>Font Type:</strong> ${presetData.prevFontType}<br>` +
+            `<strong>Font Size:</strong> ${presetData.prevFontSize}<br>` +
+            `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>` +
+            `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>` +
+            `<strong>Cloud Over Number:</strong> ${presetData.cloudToggleState}<br>`;
+          presetDiv.innerHTML = content;
+
+          var deleteButton = document.createElement('button'); // Create a delete button
+          deleteButton.textContent = 'Delete';
+          deleteButton.onclick = function () {
+            delete presets[presetName]; // Remove the preset from the object
+            chrome.storage.sync.set({ presets: presets }, function () {
+              // Update chrome.storage.sync
+              fetchAndDisplayPresets(); // Refresh the display
+            });
+          };
+
+          var applyButton = document.createElement('button'); // Create an apply button
+          applyButton.textContent = 'Apply';
+          applyButton.onclick = function () {
+            // Implement the logic to apply the preset settings
+            console.log('Applying preset:', presetName);
+            // You might want to call a function here that applies the preset's settings
+          };
+
+          // Style the apply button similarly to how you style the delete button
+          applyButton.className = 'apply-button'; // Assuming you have defined .apply-button styles in your CSS
+          deleteButton.className = 'delete-button';
+
+          presetDiv.appendChild(deleteButton); // Add the delete button to the div
+          presetDiv.appendChild(applyButton); // Add the apply button to the div
+          displayArea.appendChild(presetDiv); // Add the div to the display area
+        }
+      });
+
+      if (presetNameList.length === 0) {
+        displayArea.innerHTML = 'No presets found.'; // Display message if no presets
+      }
+    });
+  }
+
+  fetchAndDisplayPresets(); // Call the function to fetch and display presets
+});
 
 
 // num save button things
@@ -376,3 +432,4 @@ function createNewTextPreset() {
       alert("Preset name cannot be empty!");
   }
 }
+
