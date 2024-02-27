@@ -281,8 +281,11 @@ document.addEventListener('DOMContentLoaded', function () {
           var presetDiv = document.createElement('div'); // Create a new div for each preset
           var content =
             `<strong>Preset Name:</strong> ${presetName}<br>` +
+            `<strong>Font Type:</strong> ${presetData.prevFontType}<br>` +
+            `<strong>Font Size:</strong> ${presetData.prevFontSize}<br>` +
             `<strong>Character Spacing:</strong> ${presetData.prevCharSpacing}<br>` +
-            `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>`;
+            `<strong>Line Spacing:</strong> ${presetData.prevLineSpacing}<br>` +
+            `<strong>Cloud Over Number:</strong> ${presetData.cloudToggleState}<br>`;
           presetDiv.innerHTML = content;
 
           var deleteButton = document.createElement('button'); // Create a delete button
