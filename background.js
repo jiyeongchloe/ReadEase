@@ -70,16 +70,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             });
         });
     }
-
-    // save button stuff
-    if (request.message === 'saveFont') {
-        console.log("Font preferences saved!");
-        sendResponse('success');
-    }
-    if (request.message === 'saveNumber') {
-        console.log("Number preferences saved!");
-        sendResponse('success');
-    }
 });
 
 
@@ -93,18 +83,16 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
             chrome.tabs.sendMessage(tabs[0].id, {message: enable});
         });
     }
-    if (changes.numConvertToggleState) {
-        const enable = changes.numConvertToggleState.newValue;
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            console.log("in background.js:", enable);
-            chrome.tabs.sendMessage(tabs[0].id, {numConvertToggleState: enable});
-        });
-    }
     if (changes.cloudToggleState) {
         const enable = changes.cloudToggleState.newValue;
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            console.log("in background.js:", enable);
-            chrome.tabs.sendMessage(tabs[0].id, {cloudToggleState: enable});
+        chrome.storage.sync.get('toggleState', function (data) {
+            if (data.toggleState === 'on') {
+                // send message to app.js with the new  value
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    console.log("in background.js:", enable);
+                    chrome.tabs.sendMessage(tabs[0].id, {cloudToggleState: enable});
+                });
+            }
         });
     }
 });
@@ -133,10 +121,14 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
     if (changes.prevLineSpacing) {
         console.log("line spacing changed!");
         const lineSpacing = changes.prevLineSpacing.newValue;
-        // send message to app.js with the new  value
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            console.log("in background.js (line spacing):", lineSpacing);
-            chrome.tabs.sendMessage(tabs[0].id, {lineSpacingValue: lineSpacing});
+        chrome.storage.sync.get('toggleState', function (data) {
+            if (data.toggleState === 'on') {
+                // send message to app.js with the new  value
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    console.log("in background.js (line spacing):", lineSpacing);
+                    chrome.tabs.sendMessage(tabs[0].id, {lineSpacingValue: lineSpacing});
+                });
+            }
         });
     }
 
@@ -144,10 +136,14 @@ chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
     if (changes.prevCharSpacing) {
         console.log("char spacing changed!");
         const charSpacing = changes.prevCharSpacing.newValue;
-        // send message to app.js with the new value
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            console.log("in background.js (char spacing):", charSpacing);
-            chrome.tabs.sendMessage(tabs[0].id, {charSpacingValue: charSpacing});
+        chrome.storage.sync.get('toggleState', function (data) {
+            if (data.toggleState === 'on') {
+                // send message to app.js with the new  value
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    console.log("in background.js (char spacing):", charSpacing);
+                    chrome.tabs.sendMessage(tabs[0].id, {charSpacingValue: charSpacing});
+                });
+            }
         });
     }
 });
@@ -168,6 +164,38 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 
+
+// font stuff
+chrome.storage.sync.onChanged.addListener(function(changes, namespace) {
+    if (changes.prevFontSize) {
+        console.log("font size changed!");
+        const fontSize = changes.prevFontSize.newValue;
+        chrome.storage.sync.get('toggleState', function (data) {
+            if (data.toggleState === 'on') {
+                // send message to app.js with the new  value
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    console.log("in background.js (font size):", fontSize);
+                    chrome.tabs.sendMessage(tabs[0].id, {fontSizeValue: fontSize});
+                });
+            }
+        });
+    }
+    if (changes.prevFontType) {
+        console.log("font type changed!");
+        const fontType = changes.prevFontType.newValue;
+        chrome.storage.sync.get('toggleState', function (data) {
+            if (data.toggleState === 'on') {
+                // send message to app.js with the new  value
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                    console.log("in background.js (font type):", fontType);
+                    chrome.tabs.sendMessage(tabs[0].id, {fontTypeValue: fontType});
+                });
+            }
+        });
+    }
+});
+
+      
 // for debugging preset saves
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.debugging) {

@@ -19,16 +19,6 @@ profileTab.addEventListener('click', function () {
   openPref('Profile', profileTab);
 });
 
-// save button things
-var fontSave = document.getElementById('fontSave');
-fontSave.addEventListener('click', function () {
-  chrome.runtime.sendMessage({ message: 'saveFont' }, function () {});
-});
-
-var numberSave = document.getElementById('numberSave');
-numberSave.addEventListener('click', function () {
-  chrome.runtime.sendMessage({ message: 'saveNumber' }, function () {});
-});
 
 // functions
 function openPref(prefName, tabButton) {
@@ -62,20 +52,30 @@ fontDropdownItems.forEach(function (item) {
     // get the selected font from the 'data-font' attribute
     var selectedFont = this.getAttribute('data-font');
     document.getElementById('selectedFont').innerText = selectedFont;
+    chrome.storage.sync.set({ prevFontType: selectedFont });
   });
 });
 
+//font size
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('increase').addEventListener('click', increaseValue);
-  document.getElementById('decrease').addEventListener('click', decreaseValue);
+    const increaseButton = document.getElementById('increase');
+    increaseButton.addEventListener('click', function() {
+        increaseValue();
+    });
+    const decreaseButton = document.getElementById('decrease');
+    decreaseButton.addEventListener('click', function() {
+        decreaseValue();
+    });
+
 });
 
-//font size
 function increaseValue() {
   var value = parseInt(document.getElementById('number').value, 10);
   value = isNaN(value) ? 0 : value;
   value++;
   document.getElementById('number').value = value;
+  var value_string = value.toString();
+  chrome.storage.sync.set({ prevFontSize: value_string });
 }
 
 function decreaseValue() {
@@ -84,6 +84,8 @@ function decreaseValue() {
   value < 1 ? (value = 1) : '';
   value--;
   document.getElementById('number').value = value;
+  var value_string = value.toString();
+  chrome.storage.sync.set({ prevFontSize: value_string });
 }
 
 // log out things
@@ -95,7 +97,6 @@ document.querySelector('#sign-out').addEventListener('click', function () {
 // Listen for changes to the toggle switches
 document.addEventListener('DOMContentLoaded', function () {
   const toggleButton = document.getElementById('toggleButton');
-  const numConvertToggleButton = document.getElementById('numConvertToggleButton');
   const cloudToggleButton = document.getElementById('cloudToggleButton');
 
   // Retrieve toggle state from chrome.storage.sync
@@ -103,10 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const toggleState = data.toggleState;
     // Set the toggle state based on chrome.storage.sync
     toggleButton.checked = toggleState === 'on';
-  });
-  chrome.storage.sync.get('numConvertToggleState', function (data) {
-    const numConvertToggleState = data.numConvertToggleState;
-    numConvertToggleButton.checked = numConvertToggleState === 'on';
   });
   chrome.storage.sync.get('cloudToggleState', function (data) {
     const cloudToggleState = data.cloudToggleState;
@@ -118,10 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const enable = toggleButton.checked;
     // Store the toggle state in chrome.storage.sync
     chrome.storage.sync.set({ toggleState: enable ? 'on' : 'off' });
-  });
-  numConvertToggleButton.addEventListener('change', function () {
-    const enable = numConvertToggleButton.checked;
-    chrome.storage.sync.set({ numConvertToggleState: enable ? 'on' : 'off' });
   });
   cloudToggleButton.addEventListener('change', function () {
     const enable = cloudToggleButton.checked;
@@ -160,6 +153,27 @@ document.addEventListener('DOMContentLoaded', function () {
     // store the char spacing pref in chrome.storage
     chrome.storage.sync.set({ prevCharSpacing: charSpacingSlider.value });
   });
+
+
+  // retrieve font size value from chrome.storage
+  const fontSize = document.getElementById('number');
+  chrome.storage.sync.get('prevFontSize', function (data) {
+    const prevFontSize = data.prevFontSize;
+    // set the font size based on chrome.storage
+    if (prevFontSize !== undefined) {
+      fontSize.value = prevFontSize;
+    }
+  });
+
+  // retrieve font type value from chrome.storage
+  const fontType = document.getElementById('selectedFont');
+  chrome.storage.sync.get('prevFontType', function (data) {
+    const prevFontType = data.prevFontType;
+    // set the font type based on chrome storage
+    if (prevFontType !== undefined) {
+        fontType.innerText = prevFontType;
+    }
+  });
 });
 
 // spacing save button things
@@ -167,25 +181,33 @@ function saveToPreset(newData, preset_name) {
   chrome.storage.sync.get('presets', function (data) {
     var name = preset_name;
     var presets = data.presets;
-
-    // sending to background.js for debugging
-    chrome.runtime.sendMessage({ debugging: presets[name] }, function () {});
-    chrome.runtime.sendMessage({ debug: newData }, function () {});
-    chrome.runtime.sendMessage({ name: name }, function () {});
-    if (newData.prevCharSpacing) {
-      presets[name].prevCharSpacing = newData.prevCharSpacing;
-    }
-    if (newData.prevLineSpacing) {
-      presets[name].prevLineSpacing = newData.prevLineSpacing;
-    }
-    chrome.storage.sync.set({ presets: presets }, function () {});
-    alert('preset updated!');
-  });
+       // sending to background.js for debugging
+       chrome.runtime.sendMessage({ debugging: presets[name] }, function () {
+       });
+       chrome.runtime.sendMessage({ debug: newData }, function () {});
+       chrome.runtime.sendMessage({ name: name }, function() {});
+       if (newData.prevCharSpacing) {
+           presets[name].prevCharSpacing = newData.prevCharSpacing;
+       }
+       if (newData.prevLineSpacing) {
+           presets[name].prevLineSpacing = newData.prevLineSpacing;
+       }
+       if (newData.numConvertToggleState) {
+         presets[name].numConvertToggleState = newData.numConvertToggleState;
+       }
+       if (newData.cloudToggleState) {
+           presets[name].cloudToggleState = newData.cloudToggleState;
+       }
+       chrome.storage.sync.set({'presets': presets}, function() {
+       });
+       alert("preset updated!");
+   });
 }
 
-document.querySelector('.save-button').addEventListener('click', function () {
-  document.getElementById('save-dropdown').style.display = 'block';
+document.getElementById('space-save-button').addEventListener('click', function() {
+    document.getElementById('save-dropdown').style.display = 'block';
 });
+
 // close dropdown when clicking outside
 window.addEventListener('click', function (event) {
   if (!event.target.matches('.save-button')) {
@@ -233,14 +255,16 @@ function createNewPreset() {
 }
 
 function savePresetToStorage(presetName, data) {
-  chrome.storage.sync.get('presets', function (result) {
-    var presets = result.presets || {};
-    presets[presetName] = data;
-    chrome.storage.sync.set({ presets: presets }, function () {
-      location.reload;
+    chrome.storage.sync.get('presets', function(result) {
+        var presets = result.presets || {};
+        presets[presetName] = data;
+        chrome.storage.sync.set({ 'presets': presets}, function() {
+            alert("preset created and updated!");
+            location.reload;
+        });
     });
-  });
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
   function fetchAndDisplayPresets() {
@@ -297,3 +321,112 @@ document.addEventListener('DOMContentLoaded', function () {
 
   fetchAndDisplayPresets(); // Call the function to fetch and display presets
 });
+
+
+// num save button things
+document.getElementById('num-save-button').addEventListener('click', function() {
+  document.getElementById('num-save-dropdown').style.display = 'block';
+});
+// close dropdown when clicking outside
+window.addEventListener('click', function(event) {
+  if (!event.target.matches('.save-button')) {
+      var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
+      for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.style.display === 'block') {
+              openDropdown.style.display = 'none';
+          }
+      }
+  }
+});
+// populate dropdown with preset options
+populateNumSave();
+function populateNumSave() {
+  var save_dropdown = document.getElementById('num-save-dropdown');
+  chrome.storage.sync.get('presets', function(data) {
+    const presets = data.presets;
+    for (var preset_name in presets) {
+        (function(preset_name) {
+            var option = document.createElement('a');
+            option.href = '#';
+            option.textContent = preset_name;
+            option.onclick = function() {
+                chrome.storage.sync.get(['cloudToggleState'], function(data) {
+                    saveToPreset(data, preset_name);
+                });
+            };
+            save_dropdown.appendChild(option);
+        })(preset_name);        
+    }
+  });
+  const createPresetLink = document.createElement('a');
+  createPresetLink.textContent ='Create a new preset';
+  createPresetLink.addEventListener('click', createNewNumPreset);
+  save_dropdown.appendChild(createPresetLink);  
+}
+
+function createNewNumPreset() {
+  var presetName = prompt("Enter the name for the new preset:");
+  if (presetName !== null && presetName.trim() !== "") {
+      chrome.storage.sync.get(['cloudToggleState'], function(data) {
+          savePresetToStorage(presetName, data);
+      });
+  } else {
+      alert("Preset name cannot be empty!");
+  }
+}
+
+
+// text save button things
+document.getElementById('text-save-button').addEventListener('click', function() {
+  document.getElementById('text-save-dropdown').style.display = 'block';
+});
+// close dropdown when clicking outside
+window.addEventListener('click', function(event) {
+  if (!event.target.matches('.save-button')) {
+      var dropdowns = this.document.getElementsByClassName('save-dropdown-content');
+      for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.style.display === 'block') {
+              openDropdown.style.display = 'none';
+          }
+      }
+  }
+});
+// populate dropdown with preset options
+populateTextSave();
+function populateTextSave() {
+  var save_dropdown = document.getElementById('text-save-dropdown');
+  chrome.storage.sync.get('presets', function(data) {
+    const presets = data.presets;
+    for (var preset_name in presets) {
+        (function(preset_name) {
+            var option = document.createElement('a');
+            option.href = '#';
+            option.textContent = preset_name;
+            option.onclick = function() {
+                chrome.storage.sync.get(['prevFontSize', 'prevFontType'], function(data) {
+                    saveToPreset(data, preset_name);
+                });
+            };
+            save_dropdown.appendChild(option);
+        })(preset_name);        
+    }
+  });
+  const createPresetLink = document.createElement('a');
+  createPresetLink.textContent ='Create a new preset';
+  createPresetLink.addEventListener('click', createNewTextPreset);
+  save_dropdown.appendChild(createPresetLink);  
+}
+
+function createNewTextPreset() {
+  var presetName = prompt("Enter the name for the new preset:");
+  if (presetName !== null && presetName.trim() !== "") {
+      chrome.storage.sync.get(['prevFontSize', 'prevFontType'], function(data) {
+          savePresetToStorage(presetName, data);
+      });
+  } else {
+      alert("Preset name cannot be empty!");
+  }
+}
+
