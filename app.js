@@ -299,9 +299,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
           }
       });
     }
-    if (message.numConvertToggleState !== undefined) {
-        console.log("received num convert toggle state:", message.numConvertToggleState);
-    }
     if (message.cloudToggleState !== undefined) {
         console.log("received cloud toggle state:", message.cloudToggleState);
         if (message.cloudToggleState === 'on') {
@@ -322,3 +319,31 @@ document.querySelectorAll('.blur').forEach((elem) => {
 });
 
 
+// apply preset
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.apply !== undefined) {
+        console.log("received request to apply preset:", message.apply);
+        const Data = message.apply;
+        let font = "default";
+        let size = "default";
+        let lineSpace = "default";
+        let charSpace = "default";
+        if (Data.prevLineSpacing) {
+            lineSpace = Data.prevLineSpacing;
+        }
+        if (Data.prevCharSpacing) {
+            charSpace = Data.prevCharSpacing;
+        }
+        if (Data.prevFontSize) {
+            size = Data.prevFontSize;
+        }
+        if (Data.prevFontType) {
+            font = Data.prevFontType;
+        }
+        // insert custom style
+        Add_Custom_Style(font, size, lineSpace, charSpace);
+        if (Data.cloudToggleState === 'on') {
+            blurNumbersOnPage();
+        }
+    }
+});
