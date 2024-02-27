@@ -393,7 +393,7 @@ input:checked + .small-slider:before {
 }
 
 .delete-button {
-    background-color: #e16a84; /* Red background color */
+    background-color: #da8698; /* Red background color */
     color: black; /* White text color */
     border: none; /* No border */
     padding: 5px 8px; /* Padding */
@@ -404,9 +404,12 @@ input:checked + .small-slider:before {
     border-radius: 3px; /* Rounded corners */
     margin-right: 5px;
   }
-
+.delete-button :hover{
+    background-color: #e14b6c;
+    color: white;
+}
 .apply-button {
-    background-color: #9abaf1; /* Red background color */
+    background-color: #a8c4f5; /* Red background color */
     color: black; /* White text color */
     border: none; /* No border */
     padding: 5px 8px; /* Padding */
@@ -415,4 +418,9 @@ input:checked + .small-slider:before {
     font-size: 11px;
     cursor: pointer; /* Cursor pointer */
     border-radius: 3px; /* Rounded corners */
+  }
+
+.apply-button :hover{
+    background-color: #2968d5;
+    color: white;
   }
