@@ -343,7 +343,7 @@ input:checked + .small-slider:before {
 }
 .save-button {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 10px 17px;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 5px;
