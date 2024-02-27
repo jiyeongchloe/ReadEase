@@ -302,6 +302,9 @@ document.addEventListener('DOMContentLoaded', function () {
           applyButton.textContent = 'Apply';
           applyButton.onclick = function () {
             // Implement the logic to apply the preset settings
+            chrome.runtime.sendMessage({ apply: presetData }, function () {
+            });
+
             console.log('Applying preset:', presetName);
             // You might want to call a function here that applies the preset's settings
           };
