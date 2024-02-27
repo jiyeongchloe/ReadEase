@@ -2,6 +2,7 @@ form {
     width: 300px;
     margin: 0 auto;
     text-align: center;
+    margin-left: -20px;
   }
   
   .value-button {
@@ -64,6 +65,7 @@ form {
 .dropdown {
     position: relative;
     display: inline-block;
+    margin-left: 15px;
 }
 
 .dropdown-content {
@@ -100,6 +102,13 @@ body {
     text-align: center;
 }
 
+.dropbtn{
+    border: none; /* No border */
+    padding: 15px 20px; /* Padding */
+    margin-top: 5px; /* Margin on the top */
+    margin-bottom: 10px;
+    border-radius: 7px; /* Rounded corners */
+}
 #Font {
   position: relative;
 }
