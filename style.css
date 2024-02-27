@@ -109,6 +109,18 @@ body {
     margin-bottom: 10px;
     border-radius: 7px; /* Rounded corners */
 }
+
+#sign-out{
+    border: none; /* No border */
+    padding: 15px 20px; /* Padding */
+    margin-top: 5px; /* Margin on the top */
+    margin-bottom: 10px;
+    border-radius: 7px; /* Rounded corners */
+}
+
+#sign-out:hover {
+    background-color: #dba53b;
+}
 #Font {
   position: relative;
 }
