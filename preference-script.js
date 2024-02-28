@@ -415,7 +415,6 @@ function populateTextSave() {
             option.textContent = preset_name;
             option.onclick = function() {
                 chrome.storage.sync.get(['prevFontSize', 'prevFontType'], function(data) {
-                    alert(data.prevFontType);
                     saveToPreset(data, preset_name);
                 });
             };
